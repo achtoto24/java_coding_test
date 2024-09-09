@@ -1,17 +1,28 @@
-import java.util.HashSet;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        HashSet<Integer> h = new HashSet<Integer>();
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int subject = stdln.nextInt();
+        int[] arr = new int[subject];
 
-        for (int i = 0; i < 10; i++)
-            h.add(Integer.parseInt(br.readLine()) % 42);
+        for (int i = 0; i < subject; i++) {
+            int score = stdln.nextInt();
+            arr[i] = score;
+        }
 
-        System.out.println(h.size());
+        int max = arr[0];
+        for (int i = 1; i < subject; i++) {
+            if (max < arr[i])
+                max = arr[i];
+        }
+
+        float sum = 0f;
+        for (float i : arr) {
+            i = (i / max) * 100;
+            sum += i;
+        }
+        
+        System.out.println(sum / subject);
     }
 }
-//hey 야야야
