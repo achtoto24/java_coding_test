@@ -3,26 +3,24 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner stdln = new Scanner(System.in);
-        int subject = stdln.nextInt();
-        int[] arr = new int[subject];
+        int A = stdln.nextInt();
+        int B = stdln.nextInt();
+        int V = stdln.nextInt();
+        int day = 1;
+        int len = 0;
 
-        for (int i = 0; i < subject; i++) {
-            int score = stdln.nextInt();
-            arr[i] = score;
+        while (len < V) {
+            len += A;
+            
+            if (len >= V) 
+                break;
+            
+            len -= B;
+            day++;
         }
 
-        int max = arr[0];
-        for (int i = 1; i < subject; i++) {
-            if (max < arr[i])
-                max = arr[i];
-        }
+        System.out.println(day);
 
-        float sum = 0f;
-        for (float i : arr) {
-            i = (i / max) * 100;
-            sum += i;
-        }
-        
-        System.out.println(sum / subject);
     }
+
 }

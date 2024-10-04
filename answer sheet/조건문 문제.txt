@@ -1,0 +1,62 @@
+#2884
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int i1 = stdln.nextInt();
+        int i2 = stdln.nextInt();
+        int result = 0;
+        int sum = i1 * 60 + i2;
+
+        if (sum < 45) {
+            result = 24 * 60 + (sum - 45);
+            System.out.printf("%d %d", result/ 60, result % 60);
+        }
+        else {
+            result = sum - 45;
+            System.out.printf("%d %d", result/ 60, result % 60);
+        }
+    }
+}
+
+#2525
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int hour = stdln.nextInt();
+        int min = stdln.nextInt();
+        int plus = stdln.nextInt();
+
+        int sum = hour * 60 + min + plus;
+        if (sum >= 1440) {
+            sum -= 1440;
+            System.out.printf("%d %d", sum / 60, sum % 60);
+        }
+        else {
+            System.out.printf("%d %d", sum / 60, sum % 60);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

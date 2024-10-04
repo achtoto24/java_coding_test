@@ -1,10 +1,9 @@
+import java.util.Scanner;
+
 public class Test {
     public static void main(String[] args) {
-        String str = "123";
+        //Scanner stdln = new Scanner(System.in);
         
-        int num = Integer.parseInt(str);
-
-        //System.out.println(num);
-        System.out.println(str.length());
+        System.out.println();
     }
 }

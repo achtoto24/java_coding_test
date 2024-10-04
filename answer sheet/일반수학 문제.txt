@@ -1,0 +1,182 @@
+#2745
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        String num = stdln.next();
+        int x = stdln.nextInt();
+        String ch = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int sum = 0;
+
+        for (int i = 0; i < num.length(); i++) {
+            int temp = ch.indexOf(num.charAt(i));
+            for (int j = 0; j < num.length() - 1 - i; j++)
+                temp *= x;
+            sum += temp;
+        }
+
+        System.out.println(sum);
+
+    }
+}
+
+#11005
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int num = stdln.nextInt();
+        int x = stdln.nextInt();
+        String ch = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        String str = "";
+        while (num > 0) {
+            int idx = num % x;
+            str += ch.charAt(idx);
+            num /= x;
+        }
+
+        String reverse = "";
+        for (int i = str.length() - 1; i >= 0; i--) 
+            reverse += str.charAt(i);
+        
+        System.out.println(reverse);
+    }
+}
+
+#2720
+
+import java.util.Scanner;
+
+class Coin {
+    static int Quarter = 25;
+    static int Dime = 10;
+    static int Nickel = 5;
+    static int Penny = 1;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int t_case = stdln.nextInt();
+        int[][] arr = new int[t_case][4];
+
+        int i = 0;
+        while (i < t_case) {
+            int sum = stdln.nextInt();
+
+            if (sum / Coin.Quarter != 0) {
+                int cnt= sum / Coin.Quarter;
+                arr[i][0] = cnt;
+                sum %= Coin.Quarter;              
+            }
+
+            if (sum / Coin.Dime != 0) {
+                int cnt= sum / Coin.Dime;
+                arr[i][1] = cnt;
+                sum %= Coin.Dime;              
+            }
+
+            if (sum / Coin.Nickel != 0) {
+                int cnt= sum / Coin.Nickel;
+                arr[i][2] = cnt;
+                sum %= Coin.Nickel;              
+            }
+
+            if (sum / Coin.Penny != 0) {
+                int cnt= sum / Coin.Penny;
+                arr[i][3] = cnt;              
+            }
+            i++;
+        }
+
+        for (int j = 0; j < t_case; j++) {
+            for (int k = 0; k < 4; k++) 
+                System.out.printf("%d ", arr[j][k]);
+            System.out.println();
+        }
+    }
+}
+
+#2292
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int num = stdln.nextInt();
+        int sum = 1;
+        int i = 1;
+    
+        while (sum < num) {
+            sum += i * 6;
+            i++;
+        }
+
+        System.out.println(i);
+    }
+}
+
+#1193
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int num = stdln.nextInt();
+        int sum1 = 0;
+        int sum2 = 0;
+        int i1 = 1;
+        int i2 = 1;
+        
+
+        while (sum1 < num) {
+            sum1 += i1;
+            i1++;
+        }
+        i1--;
+
+        while (i2 < i1) {
+            sum2 += i2;
+            i2++;
+        }
+
+        int sum3 = num - sum2;
+        int sum4 = (i1 + 1) - sum3;
+
+        if ((i1 + 1) % 2 == 0) 
+            System.out.printf("%d/%d%n", sum4, sum3);
+        else 
+            System.out.printf("%d/%d%n", sum3, sum4);
+
+    }
+}
+
+#2869
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int A = stdln.nextInt();
+        int B = stdln.nextInt();
+        int V = stdln.nextInt();
+
+        int day = (V - B) / (A - B);    // A - B를 한 세트로 생각하기, V까지 올라가기만 하면 되므로 B를 제외시키기
+        
+        if  (((V - B) % (A - B)) != 0)  // 총 길이가 세트로 나누어 떨어지지 않을 경우 하루를 더 추가해서 올라가야 함
+            day++;
+
+        System.out.println(day);
+
+    }
+}
+
+

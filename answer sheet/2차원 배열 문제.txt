@@ -1,0 +1,109 @@
+#2738
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int row = stdln.nextInt();
+        int col = stdln.nextInt();
+
+        int[][] arr = new int[row][col];
+        int[][] arr2 = new int[row][col];
+        int[][] arr3 = new int[row][col];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                int num = stdln.nextInt();
+                arr[i][j] = num;
+            }
+        }
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                int num = stdln.nextInt();
+                arr2[i][j] = num;
+            }
+        }
+        
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                arr3[i][j] = arr[i][j] + arr2[i][j];
+                System.out.printf("%d ", arr3[i][j]);
+            }
+            System.out.println();
+        }
+
+    }
+}
+
+#2566
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int[][] arr = new int[9][9];
+        
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                int num = stdln.nextInt();
+                arr[i][j] = num;
+            }
+        }
+   
+        int max = arr[0][0];
+        int row = 0;
+        int col = 0;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (max < arr[i][j]) {
+                    max = arr[i][j];
+                    row = i;
+                    col = j;
+                }
+            }
+        }
+
+        System.out.println(max);
+        System.out.printf("%d %d%n", row + 1, col + 1);
+    }
+}
+
+#10798
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        String[] arr = new String[5];
+
+        for (int i = 0; i < 5; i++) {
+            String str = stdln.next();
+            arr[i] = str;
+        }
+
+        char[][] arr2 = new char[5][15];
+        
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < arr[i].length(); j++) {
+                arr2[i][j] = arr[i].charAt(j);
+            }
+        }
+
+        String str = "";
+    
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (arr2[j][i] == '\0')
+                    continue;
+                str += arr2[j][i]; 
+            }
+        }
+
+        System.out.println(str);
+    }
+}
