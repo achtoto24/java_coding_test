@@ -1,0 +1,100 @@
+#5086
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int A, B;
+        
+        do {
+            int num1 = stdln.nextInt();
+            int num2 = stdln.nextInt();
+            A = num1;
+            B = num2;
+
+            if (num1 < num2) {
+                if (num2 % num1 == 0) 
+                    System.out.println("factor");
+                else   
+                    System.out.println("neither");
+            }
+
+            else if (num1 > num2) {
+                if (num1 % num2 == 0) 
+                    System.out.println("multiple");
+                else   
+                    System.out.println("neither");
+            }
+
+        }while(A + B != 0);
+        
+    }
+
+}
+
+#2501
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int A = stdln.nextInt();
+        int B = stdln.nextInt();
+        int[] arr = new int[A];
+        int cnt = 1;
+        int temp = 0;
+
+        while (cnt <= A) {
+            if (A % cnt == 0) 
+                arr[temp++] = cnt; 
+            cnt++;
+        }
+
+        System.out.println(arr[B - 1]);
+        
+    }
+
+}
+
+#9506
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        
+        while (true) {
+            int num = stdln.nextInt();
+
+            if (num == -1) 
+                break;
+
+            int[] arr = new int[num];
+            int cnt = 1;
+            int sum = 0;
+            int temp = 0;
+
+            while (cnt < num) {
+                if (num % cnt == 0) {
+                    sum += cnt;
+                    arr[temp++] = cnt;
+                }
+                cnt++;
+            }
+    
+            if (sum == num) {
+                System.out.printf("%d = ", num);
+                for (int i = 0; i < temp - 1; i++)
+                    System.out.printf("%d + ", arr[i]);
+                System.out.printf("%d\n", arr[temp - 1]);
+            }
+            else 
+                System.out.printf("%d is NOT perfect.\n", num);
+       }
+
+       stdln.close();
+    }
+}

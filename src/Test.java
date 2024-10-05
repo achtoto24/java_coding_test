@@ -1,9 +1,8 @@
-import java.util.Scanner;
 
 public class Test {
     public static void main(String[] args) {
         //Scanner stdln = new Scanner(System.in);
         
-        System.out.println();
+        System.out.println("what?");
     }
 }
