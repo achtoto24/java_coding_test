@@ -3,36 +3,28 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner stdln = new Scanner(System.in);
-        
-        while (true) {
+        int N = stdln.nextInt();
+        int cnt = 0;
+
+        for (int i = 0; i < N; i++) {
             int num = stdln.nextInt();
+            boolean flag = true;
 
-            if (num == -1) 
-                break;
+            if (num == 1)
+                continue;
 
-            int[] arr = new int[num];
-            int cnt = 1;
-            int sum = 0;
-            int temp = 0;
-
-            while (cnt < num) {
-                if (num % cnt == 0) {
-                    sum += cnt;
-                    arr[temp++] = cnt;
+            for (int j = 2; j <= Math.sqrt(num); j++) {  // 소수인지 검증하는 방법 : 2부터 입력한 숫자의 제곱근보다 
+                if (num % j == 0) {                     // 작거나 같을 때까지 나머지 계산 
+                    flag = false;
+                    break;
                 }
-                cnt++;
             }
-    
-            if (sum == num) {
-                System.out.printf("%d = ", num);
-                for (int i = 0; i < temp - 1; i++)
-                    System.out.printf("%d + ", arr[i]);
-                System.out.printf("%d\n", arr[temp - 1]);
-            }
-            else 
-                System.out.printf("%d is NOT perfect.\n", num);
-       }
 
-       stdln.close();
+            if (flag)
+                cnt++;
+        }
+
+        System.out.println(cnt);
+        stdln.close();
     }
 }
