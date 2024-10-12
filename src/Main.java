@@ -1,20 +1,26 @@
 import java.util.Scanner;
 
 public class Main{
-public static void main(String[] args){
+    public static void main(String[] args){
     
-    Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        String N_str = String.valueOf(N);
+        int M = 0;
+        
+        for (int i = N - 9 * N_str.length(); i <= N - N_str.length(); i++) {
+            String str = String.valueOf(i);
+            
+            int sum = i;
+            for (int j = 0; j < str.length(); j++) 
+                sum += Integer.valueOf(str.charAt(j) - '0');
+            
+            if (sum == N) {
+                M = i;
+                break;
+            }
+        }
 
-    int a1 = sc.nextInt();
-    int a0 = sc.nextInt();
-    int c = sc.nextInt();
-    int n0 = sc.nextInt();
-
-    if((a1*n0+a0)<= c*n0 && a1 <= c){   // a1 <= c는 음수가 아닌 조건을 의미함
-        System.out.println(1);
-    }else{
-        System.out.println(0);
-    }
-    sc.close();
+        System.out.println(M);
     }
 }
