@@ -1,57 +1,40 @@
 import java.util.Scanner;
 
 public class Main {
-    public static boolean[][] arr;
-    public static int min = 64;
-
     public static void main(String[] args) {
 
         Scanner sc = new Scanner((System.in));
-
         int N = sc.nextInt();
-        int M = sc.nextInt();
+        int cnt1 = 0;
+        int cnt2 = 0;
+        int n3 = 0;
+        int n5 = 0;
 
-        arr = new boolean[N][M];
-
-        for (int i = 0; i < N; i++) {
-            String str = sc.next();
-
-            for (int j = 0; j < M; j++) {
-                if (str.charAt(j) == 'W')
-                    arr[i][j] = true;   // 'W'일 때 true
-                else
-                    arr[i][j] = false;  // 'B'일 때 false
+        if (N % 5 == 0) 
+            cnt1 = N / 5;
+        else if (N % 3 == 0) 
+            cnt1 = N / 3;
+        loop :
+        for (int i = 1; i <= N / 3; i++) {
+            for (int j = 1; j <= N / 5; j++) {
+                if (3 * i + 5 * j == N) {
+                    cnt2 = i + j;   // 처음 게산된 cnt2 값이 가장 작은 값이므로 이중for문을 바로 나와야 함
+                    break loop;
+                }
             }
         }
 
-        // (i, j)는 8x8 체스판의 시작 지점
-        for (int i = 0; i < N - 7; i++) {
-            for (int j = 0; j < M - 7; j++) {
-                find(i, j);
-            }
-        }
 
-        System.out.println(min);
-
-    }
-
-    static void find(int x, int y) {
-        boolean tf = arr[x][y]; // 기준 칸 값
-        int count = 0;
+        if (cnt1 > 0 && cnt2 > 0) 
+            System.out.println(Math.min(cnt1, cnt2));
+        else if (cnt1 > 0 && cnt2 == 0)
+            System.out.println(cnt1);
+        else if (cnt1 == 0 && cnt2 > 0)
+            System.out.println(cnt2);
+        else
+            System.out.println(-1);
         
-        for (int i = x; i < x + 8; i++) {
-            for (int j = y; j < y + 8; j++) {
-                if (arr[i][j] != tf)
-                    count++;
-                    
-                tf = !(tf);     // 다음 칸은 현재(기준) 칸 값과 반대
-            }
-            tf = !(tf); // 다음 줄 첫 번째 칸은 현재 줄 첫 번째 칸 값과 반대
-        }
 
-        int min_count = Math.min(count, 64 - count);    // 첫 번째 칸이 'W'이거나 'B' 두가지 경우 비교 
-
-        min = Math.min(min, min_count);
     }
 
 }
