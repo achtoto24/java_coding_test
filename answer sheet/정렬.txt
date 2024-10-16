@@ -1,0 +1,77 @@
+#2750-1
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner((System.in));
+
+        int N = sc.nextInt();
+        int[] arr = new int[N];
+
+        for (int i = 0; i < N; i++) 
+            arr[i] = sc.nextInt();
+
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if (arr[i] > arr[j]) {
+                    int temp = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = temp;
+                }
+            }
+        }
+
+        for (int i : arr)
+            System.out.println(i);
+
+    }
+
+}
+
+#2750-2
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        int[] arr = new int[N];
+
+        for (int i = 0; i < N; i++) 
+            arr[i] = sc.nextInt();
+
+        Arrays.sort(arr);
+
+        for (int i : arr) 
+            System.out.println(i);
+
+    }
+}
+
+#2750-3
+
+// 카운팅 정렬
+public class Main {
+    public static void main(String[] arags) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+
+        boolean[] arr = new boolean[2001];
+
+        for (int i = 0; i < N; i++)
+            arr[sc.nextInt() + 1000] = true;
+
+        for (int i = 0; i < 2001; i++) {
+            if (arr[i])
+                System.out.println(i - 1000);
+        }
+    }
+}
