@@ -1,29 +1,27 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner((System.in));
+        StringBuilder sb = new StringBuilder();
 
         int N = sc.nextInt();
-        int[] arr = new int[N];
+
+        ArrayList<Integer> list = new ArrayList<>();
 
         for (int i = 0; i < N; i++) 
-            arr[i] = sc.nextInt();
+            list.add(sc.nextInt());
 
-        for (int i = 0; i < N - 1; i++) {
-            for (int j = i + 1; j < N; j++) {
-                if (arr[i] > arr[j]) {
-                    int temp = arr[j];
-                    arr[j] = arr[i];
-                    arr[i] = temp;
-                }
-            }
-        }
+        Collections.sort(list);
 
-        for (int i : arr)
-            System.out.println(i);
+        for (int i : list)
+            sb.append(i).append('\n');
 
+        System.out.println(sb);
+        
     }
 
 }
