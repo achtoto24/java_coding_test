@@ -1,46 +1,48 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
-public class Test {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-        sc.nextLine(); // 다음 줄바꿈을 소비합니다.
+public class Main {
 
-        char[][] arr = new char[N][M];
+    public static void main(String[] args) throws IOException{
+
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(bf.readLine());
+        int[] arr_x = new int[N];
+        int[] arr_y = new int[N];
 
         for (int i = 0; i < N; i++) {
-            String str = sc.nextLine();
-            for (int j = 0; j < M; j++) 
-                arr[i][j] = str.charAt(j);
+            String[] input = bf.readLine().split(" ");
+            arr_x[i] = Integer.parseInt(input[0]);
+            arr_y[i] = Integer.parseInt(input[1]);
         }
 
-        int min = Integer.MAX_VALUE;
-
-        // 체스판 패턴을 비교
-        for (int i = 0; i <= N - 8; i++) {
-            for (int j = 0; j <= M - 8; j++) {
-                int count1 = 0; // 'B'로 시작하는 경우
-                int count2 = 0; // 'W'로 시작하는 경우
-
-                for (int k = 0; k < 8; k++) {
-                    for (int l = 0; l < 8; l++) {
-                        char expectedChar1 = (k + l) % 2 == 0 ? 'B' : 'W';
-                        char expectedChar2 = (k + l) % 2 == 0 ? 'W' : 'B';
-
-                        if (arr[i + k][j + l] != expectedChar1) {
-                            count1++;
-                        }
-                        if (arr[i + k][j + l] != expectedChar2) {
-                            count2++;
-                        }
-                    }
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if (arr_x[i] > arr_x[j]) {
+                    int temp1 = arr_x[i];
+                    arr_x[i] = arr_x[j];
+                    arr_x[j] = temp1;
+                    int temp2 = arr_y[i];
+                    arr_y[i] = arr_y[j];
+                    arr_y[j] = temp2;
                 }
-                min = Math.min(min, Math.min(count1, count2));
             }
         }
 
-        System.out.println(min);
-        sc.close(); // Scanner를 닫습니다.
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if (arr_x[i] == arr_x[j] && arr_y[i] > arr_y[j]) {
+                    int temp = arr_y[i];
+                    arr_y[i] = arr_y[j];
+                    arr_y[j] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i < N; i++) 
+            System.out.println(arr_x[i] + " " + arr_y[i]);
+        
+
     }
 }
