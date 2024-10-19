@@ -1,25 +1,35 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import java.util.Scanner;
 import java.util.Arrays;
 
 public class Main {
+    public static void main(String[] args) {
 
-    public static void main(String[] args) throws IOException{
-
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(bf.readLine());
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
         String[] str = new String[N];
-        int[] arr = new int[N];
+        
+        StringBuffer sb = new StringBuffer();
 
         for (int i = 0; i < N; i++) {
-            str[i] = bf.readLine();
+            str[i] = sc.next();
         }
 
-        Arrays.sort(str);
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if (str[i].length() > str[j].length()) {
+                    String temp = str[i];
+                    str[i] = str[j];
+                    str[j] = temp;
+                }
+            }
+        }
+
+        
 
         for (String i : str)
             System.out.println(i);
+
+        
 
     }
 }
