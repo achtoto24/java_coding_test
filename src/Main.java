@@ -1,6 +1,9 @@
 import java.util.Scanner;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.HashMap;
+
+// HashMap을 이용하여 요소와 rank값 매칭하기
+// Arrays.sort() 이용하여 요소 정렬 후 차례대로 rank 매기기
 
 public class Main {
     public static void main(String[] args) {
@@ -8,31 +11,30 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         int N = sc.nextInt();
-        String[][] arr = new String[N][2];
 
-        sc.nextLine(); // 개행 버림
-
-        for (int i = 0; i < N; i++) {
-            arr[i][0] = sc.next();
-            arr[i][1] = sc.next();
-        }
-
-        Arrays.sort(arr, new Comparator<String[]>() {
-            public int compare(String[] s1, String[] s2) {
-
-                int num1 = Integer.parseInt(s1[0]);
-                int num2 = Integer.parseInt(s2[0]);
-
-                if (num1 != num2) 
-                    return Integer.compare(num1, num2);
-                else
-                    return 0;
-
-            }
-        });
+        int[] arr = new int[N];
+        int[] arr_sort = new int[N];
+        HashMap<Integer, Integer> rankMap = new HashMap<Integer, Integer>();
 
         for (int i = 0; i < N; i++) 
-            System.out.println(arr[i][0] + " " + arr[i][1]);
+            arr[i] = arr_sort[i] = sc.nextInt();        
+
+        Arrays.sort(arr_sort);
+
+        int rank = 0;
+
+        for (int i : arr_sort) {
+            if (!rankMap.containsKey(i)) {
+                rankMap.put(i, rank);
+                rank++;
+            }
+        }
         
+        StringBuilder sb = new StringBuilder();
+        for (int i : arr) 
+            sb.append(rankMap.get(i)).append(' ');
+        
+        System.out.println(sb);
+
     }
 }
