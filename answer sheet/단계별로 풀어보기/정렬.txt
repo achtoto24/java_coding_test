@@ -251,3 +251,76 @@ public class Main {
     }
 }
 
+#1764
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
+
+// HashMap 클래스를 쓰는 이유 : 중복이 허용되지 않는 하나의 집합을 만들어 비교하기 위해서
+public class Main {
+    public static void main(String[] args) throws IOException{
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] input = br.readLine().split(" ");
+        int N = Integer.parseInt(input[0]);
+        int M = Integer.parseInt(input[1]);
+        
+        HashSet<String> set = new HashSet<>();
+        for (int i = 0; i < N; i++) 
+            set.add(br.readLine());
+        
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < M; i++) {
+            String str = br.readLine();     // br.readLine()은 String을 의미
+            if (set.contains(str))
+                result.add(str);
+        }
+
+        Collections.sort(result);
+
+        System.out.println(result.size());
+        for (String s : result)
+            System.out.println(s);
+
+    }
+}
+
+#10815
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuffer bf = new StringBuffer();
+
+        int N = Integer.parseInt(br.readLine());
+        String[] input1 = br.readLine().split(" "); 
+        
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < N; i++)
+            set.add(Integer.parseInt(input1[i]));
+  
+        int M = Integer.parseInt(br.readLine());
+
+        String[] input2 = br.readLine().split(" ");
+        for (int i = 0; i < M; i++) {
+            int temp = Integer.parseInt(input2[i]);
+            if (set.contains(temp))
+                bf.append(1).append(" ");
+            else
+                bf.append(0).append(" ");
+        }
+        
+        System.out.println(bf);
+
+    }
+}

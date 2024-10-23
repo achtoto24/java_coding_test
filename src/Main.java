@@ -1,40 +1,33 @@
-import java.util.Scanner;
-import java.util.Arrays;
-import java.util.HashMap;
-
-// HashMap을 이용하여 요소와 rank값 매칭하기
-// Arrays.sort() 이용하여 요소 정렬 후 차례대로 rank 매기기
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         
-        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuffer bf = new StringBuffer();
 
-        int N = sc.nextInt();
+        int N = Integer.parseInt(br.readLine());
+        String[] input1 = br.readLine().split(" "); 
+        
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < N; i++)
+            set.add(Integer.parseInt(input1[i]));
+  
+        int M = Integer.parseInt(br.readLine());
 
-        int[] arr = new int[N];
-        int[] arr_sort = new int[N];
-        HashMap<Integer, Integer> rankMap = new HashMap<Integer, Integer>();
-
-        for (int i = 0; i < N; i++) 
-            arr[i] = arr_sort[i] = sc.nextInt();        
-
-        Arrays.sort(arr_sort);
-
-        int rank = 0;
-
-        for (int i : arr_sort) {
-            if (!rankMap.containsKey(i)) {
-                rankMap.put(i, rank);
-                rank++;
-            }
+        String[] input2 = br.readLine().split(" ");
+        for (int i = 0; i < M; i++) {
+            int temp = Integer.parseInt(input2[i]);
+            if (set.contains(temp))
+                bf.append(1).append(" ");
+            else
+                bf.append(0).append(" ");
         }
         
-        StringBuilder sb = new StringBuilder();
-        for (int i : arr) 
-            sb.append(rankMap.get(i)).append(' ');
-        
-        System.out.println(sb);
+        System.out.println(bf);
 
     }
 }
