@@ -324,3 +324,105 @@ public class Main {
 
     }
 }
+
+#2217
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N];
+        for (int i = 0; i < N; i++) 
+            arr[i] = Integer.parseInt(br.readLine());
+        
+        Arrays.sort(arr);
+
+        int[] arr_desc = new int[N];
+        for (int i = N -1; i >= 0; i--)
+            arr_desc[N - 1 - i] = arr[i];
+
+        int[] weight = new int[N];
+        int max = weight[0] = arr_desc[0];
+        for (int i = 1; i < N; i++) {
+            weight[i] = arr_desc[i] * (i + 1);
+            max = Math.max(max, weight[i]);
+        }
+
+        System.out.println(max);
+
+    }
+}
+
+#2752
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int[] arr = new int[3];
+        String[] input = br.readLine().split(" ");
+        for (int i = 0; i < 3; i++) 
+            arr[i] = Integer.parseInt(input[i]);
+        
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i : arr)
+            sb.append(i).append(" ");
+
+        System.out.println(sb);
+    }
+}
+
+#1026
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int[] arr1 = new int[N];
+        int[] arr2 = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer stk = new StringTokenizer(br.readLine());
+
+        for (int i = 0; i < N; i++) {
+            arr1[i] = Integer.parseInt(st.nextToken());
+            arr2[i] = Integer.parseInt(stk.nextToken());
+        }
+
+        Arrays.sort(arr1);
+        for (int i = 0; i < N / 2; i++) {
+            int temp = arr1[i];
+            arr1[i] = arr1[N - 1 - i];
+            arr1[N - 1 - i] = temp;
+        }
+
+        Arrays.sort(arr2);
+
+        int sum = 0;
+        for (int i = 0; i < N; i++) 
+            sum += arr1[i] * arr2[i];
+        
+        System.out.println(sum);
+        
+    }
+}
+

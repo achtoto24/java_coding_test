@@ -1,33 +1,49 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuffer bf = new StringBuffer();
 
         int N = Integer.parseInt(br.readLine());
-        String[] input1 = br.readLine().split(" "); 
-        
-        HashSet<Integer> set = new HashSet<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        ArrayList<Integer> list = new ArrayList<>(N);
         for (int i = 0; i < N; i++)
-            set.add(Integer.parseInt(input1[i]));
-  
-        int M = Integer.parseInt(br.readLine());
+            list.add(Integer.parseInt(st.nextToken()));
+        
+        Collections.sort(list);
 
-        String[] input2 = br.readLine().split(" ");
+        int M = Integer.parseInt(br.readLine());
+        StringTokenizer stk = new StringTokenizer(br.readLine());
+        int[] cnt = new int[M];
         for (int i = 0; i < M; i++) {
-            int temp = Integer.parseInt(input2[i]);
-            if (set.contains(temp))
-                bf.append(1).append(" ");
-            else
-                bf.append(0).append(" ");
+            int num = Integer.parseInt(stk.nextToken());
+            int idx = list.indexOf(num);
+            // System.out.println(idx);
+            if (idx >= 0) {
+                int count = 0;
+                while (list.get(idx) == num) {
+                    count++;
+                    if (idx == N - 1)
+                        break;
+                    idx++;
+                }
+                cnt[i] = count;
+            }
+            else 
+                cnt[i] = 0;
         }
         
-        System.out.println(bf);
+        StringBuilder sb = new StringBuilder();
+        for (int i : cnt)
+            sb.append(i).append(" ");
+
+        System.out.println(sb);
 
     }
 }
