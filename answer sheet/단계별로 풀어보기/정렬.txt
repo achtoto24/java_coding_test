@@ -426,3 +426,131 @@ public class Main {
     }
 }
 
+#10816 - 시간초과
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        ArrayList<Integer> list = new ArrayList<>(N);
+        for (int i = 0; i < N; i++)
+            list.add(Integer.parseInt(st.nextToken()));
+        
+        Collections.sort(list);
+
+        int M = Integer.parseInt(br.readLine());
+        StringTokenizer stk = new StringTokenizer(br.readLine());
+        int[] cnt = new int[M];
+        for (int i = 0; i < M; i++) {
+            int num = Integer.parseInt(stk.nextToken());
+            int idx = list.indexOf(num);
+            // System.out.println(idx);
+            if (idx >= 0) {
+                int count = 0;
+                while (list.get(idx) == num) {
+                    count++;
+                    if (idx == N - 1)
+                        break;
+                    idx++;
+                }
+                cnt[i] = count;
+            }
+            else 
+                cnt[i] = 0;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i : cnt)
+            sb.append(i).append(" ");
+
+        System.out.println(sb);
+
+    }
+}
+
+#10816 - 정렬로 푼 문제가 아님
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        HashMap<Integer, Integer> map = new HashMap<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        for (int i = 0; i < N; i++) {
+            int num = Integer.parseInt(st.nextToken());
+            if(map.get(num) == null)
+                map.put(num, 1);
+            else 
+                map.put(num, map.get(num) + 1);
+        }
+
+        int M = Integer.parseInt(br.readLine());
+        StringTokenizer stk = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < M; i++) {
+            int num = Integer.parseInt(stk.nextToken());
+            if (map.get(num) == null) 
+                sb.append(0).append(" ");
+            else
+                sb.append(map.get(num)).append(" ");
+        }
+
+        System.out.println(sb);
+
+    }
+}
+
+#11399
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int[] arr = new int[N];
+        for (int i = 0; i < N; i++)
+            arr[i] = Integer.parseInt(st.nextToken());
+
+        Arrays.sort(arr);
+
+        int sum1 = 0;
+        for (int i = 0; i < N; i++) {
+            int sum2 = 0;
+            for (int j = 0; j <= i; j++) 
+                sum2 += arr[j];
+            sum1 += sum2;
+        }
+
+        System.out.println(sum1);
+
+    }
+}
+
