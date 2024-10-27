@@ -1,94 +1,61 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.Stack;
 
 /*
  * 스택의 기본 설명
  */
 public class Main {
 
-    public static int[] stack;
-    public static int size = 0;
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        int M = Integer.parseInt(br.readLine());
         StringBuilder sb = new StringBuilder();
+        sb.append(s);
 
-        int N = Integer.parseInt(br.readLine());
-        stack = new int[N];
+        Stack<Character> stack = new Stack<>();
 
-        while (N > 0) {
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        for (int i = 0; i < s.length(); i++) {
+            stack.push(s.charAt(i));
+        }
 
-            switch (st.nextToken()) {
-                case "push":
-                    push(Integer.parseInt(st.nextToken()));
+        int cursor = s.length();
+
+        while (M > 0) {
+            String str = br.readLine();
+            
+            switch (str) {
+                case "L":
+                    if (cursor == 0)
+                        break;
+                    else {
+                        cursor--;
+                        break;
+                    }
+
+                case "D":
+                    if (cursor == sb.length())
+                        break;
+                    else {
+                        cursor++;
+                        break;
+                    }
+
+                case "B":
+                    if (cursor != 0) {
+                        for (int i = 0; )
+                    }
                     break;
-                
-                case "pop":
-                    sb.append(pop()).append('\n');
-                    break;
 
-                case "size":
-                    sb.append(size()).append('\n');
-                    break;
+                default :
 
-                case "empty":
-                    sb.append(empty()).append('\n');
-                    break;
-
-                case "top":
-                    sb.append(top()).append('\n');
                     break;
             }
-            N--;
+            M--;
         }
-        System.out.println(sb);
-
-    }
-
-    public static void push(int item) {
-        
-        stack[size] = item;
-        size++;
-
-    }
-
-    public static int pop() {
-        
-        if (size == 0)
-            return -1;
-        else {
-            int res = stack[size - 1];
-            stack[size - 1] = 0;
-            size--;
-            return res;
-        }
-
-    }
-
-    public static int size() {
-        
-        return size;
-
-    }
-
-    public static int empty() {
-        
-        if (size == 0)
-            return 1;
-        else
-            return 0;
-            
-    }
-
-    public static int top() {
-        
-        if (size == 0)
-            return -1;
-        else
-            return stack[size - 1];
 
     }
 
