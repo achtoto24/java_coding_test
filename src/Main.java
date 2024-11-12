@@ -1,46 +1,147 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 import java.util.Stack;
 
-/*
- * <'스택 수열' 문제>
- * 스택에는 배열 요소의 인덱스가 담김
- * 조회하는 배열의 요소와 스택의 최상위 요소를 인덱스로 하는 요소를 비교하여
- * 조회하는 요소가 크다면 그것을 스택의 최상위 요소를 인덱스로 하는 요소 값으로 변경
- * 이 과정에서 스택에서 pop하여 스택의 최상위 요소를 변경
- * 반복문이 끝나면 조회하는 요소의 인덱스를 스택에 push함
- */
 public class Main {
 	
-	public static void main(String[] args) throws IOException {
-
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
-
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int[] arr = new int[N];
-		for (int i = 0; i < N; i++) 
-			arr[i] = Integer.parseInt(st.nextToken());
-		
-		Stack<Integer> stack = new Stack<>();
-			
-		for (int i = 0; i < N; i++) {
-			while (!stack.isEmpty() && arr[stack.peek()] < arr[i])
-			arr[stack.pop()] = arr[i];
-			
-			stack.push(i);
-		}
-			
-		while (!stack.isEmpty()) 
-			arr[stack.pop()] = -1;
-		
+	public static void main (String[] args) throws IOException {
+		Stack<Character> stack = new Stack<>();
+		Stack<Character> temp_stack = new Stack<>();
 		StringBuilder sb = new StringBuilder();
-		for (int i : arr)
-			sb.append(i).append(" ");		
-	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String str = br.readLine();
+
+		for (int i = 0; i < str.length(); i++) {
+			switch (str.charAt(i)) {
+				case '-':
+					while (!stack.isEmpty()) {
+						sb.append(stack.pop());
+					}
+					stack.push(str.charAt(i));
+					break;
+			
+				case '+':
+					while (!stack.isEmpty()) {
+						sb.append(stack.pop());
+					}
+					stack.push(str.charAt(i));
+					break;
+					
+				case '*':
+					stack.push(str.charAt(i));
+					break;
+
+				case '/':
+					stack.push(str.charAt(i));
+					break;
+
+				case '(':
+					while (!stack.isEmpty()) {
+						temp_stack.push(stack.pop());
+					}
+					break;
+
+				case ')':
+					while (!stack.isEmpty()) {
+						sb.append(stack.pop());
+					}
+
+					while (!temp_stack.isEmpty()) {
+						stack.push(temp_stack.pop());
+					}
+					break;
+
+				default:
+					sb.append(str.charAt(i));
+					break;
+			}
+
+		}
+		while(!stack.isEmpty()) 
+		sb.append(stack.pop());
+		
 		System.out.println(sb);
+
 	}
 
 }
+
+/*
+ * import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class Main {
+    
+    // 연산자 우선순위 반환
+    public static int getPriority(char operator) {
+        if (operator == '+' || operator == '-') {
+            return 1;
+        } else if (operator == '*' || operator == '/') {
+            return 2;
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Stack<Character> stack = new Stack<>(); // 연산자 스택
+        StringBuilder sb = new StringBuilder(); // 결과 문자열
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = br.readLine();
+
+        for (int i = 0; i < str.length(); i++) {
+            char currentChar = str.charAt(i);
+
+            switch (currentChar) {
+                case '+':
+                case '-':
+                    // +, - 연산자 처리
+                    while (!stack.isEmpty() && getPriority(stack.peek()) >= getPriority(currentChar)) {
+                        sb.append(stack.pop());
+                    }
+                    stack.push(currentChar);
+                    break;
+                
+                case '*':
+                case '/':
+                    // *, / 연산자 처리
+                    while (!stack.isEmpty() && getPriority(stack.peek()) >= getPriority(currentChar)) {
+                        sb.append(stack.pop());
+                    }
+                    stack.push(currentChar);
+                    break;
+
+                case '(':
+                    // 여는 괄호는 스택에 넣음
+                    stack.push(currentChar);
+                    break;
+
+                case ')':
+                    // 닫는 괄호가 나오면 여는 괄호까지 스택에서 꺼내어 출력
+                    while (!stack.isEmpty() && stack.peek() != '(') {
+                        sb.append(stack.pop());
+                    }
+                    stack.pop(); // '(' 제거
+                    break;
+
+                default:
+                    // 피연산자일 경우 그대로 결과에 추가
+                    sb.append(currentChar);
+                    break;
+            }
+        }
+
+        // 남아있는 연산자 처리
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+        }
+
+        System.out.println(sb);
+    }
+}
+
+ */
