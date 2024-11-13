@@ -2,146 +2,54 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Stack;
+import java.util.HashMap;
 
 public class Main {
-	
-	public static void main (String[] args) throws IOException {
-		Stack<Character> stack = new Stack<>();
-		Stack<Character> temp_stack = new Stack<>();
-		StringBuilder sb = new StringBuilder();
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String str = br.readLine();
-
-		for (int i = 0; i < str.length(); i++) {
-			switch (str.charAt(i)) {
-				case '-':
-					while (!stack.isEmpty()) {
-						sb.append(stack.pop());
-					}
-					stack.push(str.charAt(i));
-					break;
-			
-				case '+':
-					while (!stack.isEmpty()) {
-						sb.append(stack.pop());
-					}
-					stack.push(str.charAt(i));
-					break;
-					
-				case '*':
-					stack.push(str.charAt(i));
-					break;
-
-				case '/':
-					stack.push(str.charAt(i));
-					break;
-
-				case '(':
-					while (!stack.isEmpty()) {
-						temp_stack.push(stack.pop());
-					}
-					break;
-
-				case ')':
-					while (!stack.isEmpty()) {
-						sb.append(stack.pop());
-					}
-
-					while (!temp_stack.isEmpty()) {
-						stack.push(temp_stack.pop());
-					}
-					break;
-
-				default:
-					sb.append(str.charAt(i));
-					break;
-			}
-
-		}
-		while(!stack.isEmpty()) 
-		sb.append(stack.pop());
-		
-		System.out.println(sb);
-
-	}
-
-}
-
-/*
- * import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Stack;
-
-public class Main {
-    
-    // 연산자 우선순위 반환
-    public static int getPriority(char operator) {
-        if (operator == '+' || operator == '-') {
-            return 1;
-        } else if (operator == '*' || operator == '/') {
-            return 2;
-        }
-        return 0;
-    }
 
     public static void main(String[] args) throws IOException {
-        Stack<Character> stack = new Stack<>(); // 연산자 스택
-        StringBuilder sb = new StringBuilder(); // 결과 문자열
-        
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String str = br.readLine();
 
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int num = Integer.parseInt(br.readLine());
+        String str = br.readLine();
+        int[] arr = new int[num];
+        for (int i = 0; i < num; i++)
+            arr[i] = Integer.parseInt(br.readLine());
+        
+        Stack<Float> stack = new Stack<>();
+        HashMap map = new HashMap<>();
+
+        int cnt = 0;
         for (int i = 0; i < str.length(); i++) {
             char currentChar = str.charAt(i);
 
-            switch (currentChar) {
-                case '+':
-                case '-':
-                    // +, - 연산자 처리
-                    while (!stack.isEmpty() && getPriority(stack.peek()) >= getPriority(currentChar)) {
-                        sb.append(stack.pop());
-                    }
-                    stack.push(currentChar);
-                    break;
+            if (currentChar == '+') {
+                float n1 = stack.pop();
+                float n2 = stack.pop();
+                float rst = n2 + n1;
+                stack.push(rst);
+            } else if (currentChar == '-') {
+                float n1 = stack.pop();
+                float n2 = stack.pop();
+                float rst = n2 - n1;
+                stack.push(rst);
+            } else if (currentChar == '*') {
+                float n1 = stack.pop();
+                float n2 = stack.pop();
+                float rst = n2 * n1;
+                stack.push(rst);
+            } else if (currentChar == '/') {
+                float n1 = stack.pop();
+                float n2 = stack.pop();
+                float rst = n2 / n1;
+                stack.push(rst);
+            } else {
                 
-                case '*':
-                case '/':
-                    // *, / 연산자 처리
-                    while (!stack.isEmpty() && getPriority(stack.peek()) >= getPriority(currentChar)) {
-                        sb.append(stack.pop());
-                    }
-                    stack.push(currentChar);
-                    break;
-
-                case '(':
-                    // 여는 괄호는 스택에 넣음
-                    stack.push(currentChar);
-                    break;
-
-                case ')':
-                    // 닫는 괄호가 나오면 여는 괄호까지 스택에서 꺼내어 출력
-                    while (!stack.isEmpty() && stack.peek() != '(') {
-                        sb.append(stack.pop());
-                    }
-                    stack.pop(); // '(' 제거
-                    break;
-
-                default:
-                    // 피연산자일 경우 그대로 결과에 추가
-                    sb.append(currentChar);
-                    break;
+                stack.push((float)arr[cnt++]);
             }
         }
 
-        // 남아있는 연산자 처리
-        while (!stack.isEmpty()) {
-            sb.append(stack.pop());
-        }
+        System.out.printf("%.2f",stack.pop());
 
-        System.out.println(sb);
     }
 }
-
- */
