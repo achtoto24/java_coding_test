@@ -16,36 +16,37 @@ public class Main {
         for (int i = 0; i < num; i++)
             arr[i] = Integer.parseInt(br.readLine());
         
-        Stack<Float> stack = new Stack<>();
-        HashMap map = new HashMap<>();
+        Stack<Double> stack = new Stack<>();
+        HashMap<Character, Integer> map = new HashMap<>();
 
         int cnt = 0;
         for (int i = 0; i < str.length(); i++) {
             char currentChar = str.charAt(i);
 
             if (currentChar == '+') {
-                float n1 = stack.pop();
-                float n2 = stack.pop();
-                float rst = n2 + n1;
+                double n1 = stack.pop();
+                double n2 = stack.pop();
+                double rst = n2 + n1;
                 stack.push(rst);
             } else if (currentChar == '-') {
-                float n1 = stack.pop();
-                float n2 = stack.pop();
-                float rst = n2 - n1;
+                double n1 = stack.pop();
+                double n2 = stack.pop();
+                double rst = n2 - n1;
                 stack.push(rst);
             } else if (currentChar == '*') {
-                float n1 = stack.pop();
-                float n2 = stack.pop();
-                float rst = n2 * n1;
+                double n1 = stack.pop();
+                double n2 = stack.pop();
+                double rst = n2 * n1;
                 stack.push(rst);
             } else if (currentChar == '/') {
-                float n1 = stack.pop();
-                float n2 = stack.pop();
-                float rst = n2 / n1;
+                double n1 = stack.pop();
+                double n2 = stack.pop();
+                double rst = n2 / n1;
                 stack.push(rst);
             } else {
-                
-                stack.push((float)arr[cnt++]);
+                if (!map.containsKey(currentChar)) 
+                    map.put(currentChar, arr[cnt++]); 
+                stack.push((double)map.get(currentChar));
             }
         }
 
