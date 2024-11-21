@@ -1,9 +1,11 @@
+#2609
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-// GCD 알고리즘
+// GCD 알고리즘 - 재귀적 알고리즘 풀이
 public class Main {
 
     public static void main(String[] args) throws IOException {
