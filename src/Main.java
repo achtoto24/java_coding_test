@@ -2,37 +2,42 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
+import java.util.LinkedList;
+import java.util.Queue;
 
+/*
+ * 요세푸스 문제 
+ * 순환 문제일 경우 queue를 이용하여 뺴고 다시 넣는 과정을 반복하는 아이디어를 고려
+ */
 public class Main {
 
     public static boolean[] prime;
     public static void main(String[] args) throws IOException {
 
+        Queue<Integer> que = new LinkedList<>();
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int M = Integer.parseInt(st.nextToken());
         int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
 
-        prime = new boolean[N + 1];
-        get_prime();
+        
+        for (int i = 1; i <= N; i++)
+            que.offer(i);
 
         StringBuilder sb = new StringBuilder();
-        for (int i = M; i <= N; i++)
-            if (!prime[i]) sb.append(i).append('\n');
+        sb.append('<');
 
-        System.out.println(sb);
-
-    }
-
-    public static void get_prime() {
-        
-        prime[0] = prime[1] = true;
-
-        for (int i = 2; i <= Math.sqrt(prime.length); i++) {
-            if (prime[i]) continue;
-            for (int j = i * i; j < prime.length; j += i)
-                prime[j] = true;
+        while (que.size() != 1) {
+            for (int i = 0; i < K - 1; i++) 
+                que.offer(que.poll());
+            
+            sb.append(que.poll()).append(", ");
         }
 
+        sb.append(que.poll()).append('>');
+
+        System.out.println(sb);
+        
     }
 }
