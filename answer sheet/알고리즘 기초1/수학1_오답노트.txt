@@ -71,7 +71,7 @@ public class Main {
             for (int j = i * i; j < prime.length; j += i)
                 prime[j] = true;
         }
-
+    a
     }
 }
 
