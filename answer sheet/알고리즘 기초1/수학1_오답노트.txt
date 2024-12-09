@@ -121,3 +121,28 @@ public class Main {
 
     }
 }
+
+#1373
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Main {
+        
+    public static void main(String[] args) throws IOException {
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            String str = br.readLine();
+            int n = str.length();
+
+            if (n % 3 == 1) System.out.print(str.charAt(0));
+            else if (n % 3 == 2) System.out.print((str.charAt(0) - '0') * 2 + (str.charAt(1) - '0'));
+
+            for (int i = n % 3; i < n; i += 3) System.out.print((str.charAt(i)-'0')*4 + (str.charAt(i+1)-'0')*2 + (str.charAt(i+2)-'0'));
+            
+                     
+    }
+
+}
+
