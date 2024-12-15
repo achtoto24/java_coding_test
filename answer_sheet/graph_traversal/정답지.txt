@@ -1,9 +1,12 @@
 # 1260
 
+package java_coding_test.src;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
+// import java.util.Stack;
 import java.util.StringTokenizer;
 import java.io.IOException;
 
@@ -16,6 +19,8 @@ public class Main {
     static int node, line, start;
 
     static Queue<Integer> q = new LinkedList<>();
+    // static Stack<Integer> s = new Stack<>();
+
     public static void main(String[] args) throws IOException {
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,52 +30,53 @@ public class Main {
         line = Integer.parseInt(st.nextToken());
         start = Integer.parseInt(st.nextToken());
         
-        arr = new int[node + 1][node + 1];  
-        check = new boolean[node + 1];  
-
+        arr = new int[node + 1][node + 1];  // adjacent matrix
+        
         for (int i = 0; i < line; i++) {
             StringTokenizer st2 = new StringTokenizer(br.readLine());
-
+            
             int a = Integer.parseInt(st2.nextToken());
             int b = Integer.parseInt(st2.nextToken());
-
+            
             arr[a][b] = arr[b][a] = 1;
         }
-
-        dfs(start);
+        
+        check = new boolean[node + 1];  
+        dfsR(start);
+        
         sb.append('\n');
-        check = new boolean[node +1];
 
+        check = new boolean[node +1];
         bfs(start);
 
         System.out.println(sb);
         
     }
 
-    public static void dfs(int start) {
+    public static void dfsR(int start) {
         
-        check[start] = true;
-        sb.append(start + " ");
+        check[start] = true;        // 조회한 요소는 마크해주기
+        sb.append(start + " ");     // 조회한 요소는 출력하기 
 
         for (int i = 1; i <= node; i++) {
-            if(arr[start][i] == 1 && !check[i]) dfs(i);
+            if(arr[start][i] == 1 && !check[i]) dfsR(i);     // 노드가 서로 연결되어 있으면서 조회하지 않았다면 재귀호출
         }
 
     }
 
     public static void bfs(int start) {
 
-        q.add(start);
-        check[start] = true;
+        q.offer(start);          // 큐에 첫 요소 넣기
+        check[start] = true;    // 첫 요소 마크하기
 
         while (!q.isEmpty()) {
-            start = q.poll();
-            sb.append(start + " ");
+            start = q.poll();           // 큐에서 요소 빼기
+            sb.append(start + " ");     // 요소 출력하기
 
             for (int i = 1; i <= node; i++) {
-                if (arr[start][i] == 1 && !check[i]) {
-                    q.add(i);
-                    check[i] = true;
+                if (arr[start][i] == 1 && !check[i]) {      // dfs랑 조건이 같음
+                    q.offer(i);                              // 큐에 요소 넣기
+                    check[i] = true;                        // 조회한 요소 마크해주기
                 }
             }
         }
@@ -79,3 +85,77 @@ public class Main {
 
 }
 
+/*
+     public static void dfs(int start) {
+
+        s.push(start);
+        check[start] = true;
+
+        while (!s.isEmpty()) {
+            start = s.pop();
+            sb.append(start + " ");
+            
+            for (int i = 1; i <= node; i++) {
+                if (arr[start][i] == 1 && !check[i]) {
+                    s.push(i);
+                    check[i] = true;
+                }
+            }
+        }
+
+    }
+ */
+
+#2606
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static int[][] arr;
+    static boolean[] check;
+    
+    static int node, line;
+    static int cnt = 0;
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        node = Integer.parseInt(br.readLine());
+        line = Integer.parseInt(br.readLine());
+
+        arr = new int[node + 1][node + 1];
+        for (int i = 0; i < line; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+
+            arr[a][b] = arr[b][a] = 1;
+        }
+
+        check = new boolean[node + 1];
+
+        int start = 1;
+        dfsR(start);
+
+        System.out.println(cnt - 1);
+
+    }
+
+    public static void dfsR(int start) {
+
+        check[start] = true;
+        cnt++;
+
+        for (int i = 1; i <= node; i++) {
+            if (arr[start][i] == 1 && !check[i]) dfsR(i);
+        }
+
+    }
+
+}
