@@ -3,74 +3,70 @@ package java_coding_test.src;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.StringTokenizer;
 
 public class Main {
 
-    static int[][] map;
+    static int[][] arr;
     static boolean[][] check;
-    static int[] move_x = {1, -1, 0, 0};
-    static int[] move_y = {0, 0, 1, -1};
-    
-    static int N;
-    static int cnt;
+    static int[] move_x = {-1, 1, 0, 0};
+    static int[] move_y = {0, 0, -1, 1};
 
+    static int M, N, node;
+    
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        N = Integer.parseInt(br.readLine());
+        int T = Integer.parseInt(br.readLine());
 
-        map = new int[N + 1][N + 1];
-        for (int i = 0; i < N; i++) {
-            String str = br.readLine();
-            for (int j = 0; j < N; j++) 
-                map[i][j] = str.charAt(j) - '0';
-        }
+        for (int i = 0; i < T; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            M = Integer.parseInt(st.nextToken());
+            N = Integer.parseInt(st.nextToken());
+            node = Integer.parseInt(st.nextToken()); 
 
-        check = new boolean[N + 1][N + 1];
-        ArrayList<Integer> list = new ArrayList<>();
-        int result = 0;
+            arr = new int[M + 1][N + 1];
+            check = new boolean[M + 1][N + 1];
+            int cnt = 0;
 
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (map[i][j] == 1 && !check[i][j]) {
-                    cnt = 0;
-                    dfsR(i, j);
-                    list.add(cnt);
-                    result++;
+            for (int j = 0; j < node; j++) {
+                StringTokenizer st2 = new StringTokenizer(br.readLine());
+                int a = Integer.parseInt(st2.nextToken());
+                int b = Integer.parseInt(st2.nextToken());
+                arr[a][b] = 1;
+            }
+
+            for (int k = 0; k < M; k++) {
+                for (int l = 0; l < N; l++) {
+                    if (arr[k][l] == 1 && !check[k][l]) {
+                        dfsR(k, l);
+                        cnt++;
+                    }
                 }
             }
+
+            System.out.println(cnt);
+
         }
 
-        Collections.sort(list);
-        
-        System.out.println(result);
-        for (int i = 0; i < list.size(); i++)
-            System.out.println(list.get(i));
 
     }
 
     public static void dfsR(int x, int y) {
 
         check[x][y] = true;
-        cnt++;
 
         for (int i = 0; i < 4; i++) {
-            int next_x = move_x[i] + x;
-            int next_y = move_y[i] + y;
-
-            if (next_x < 0 || next_y < 0 || next_x > N || next_y > N) continue;
-            if (map[next_x][next_y] == 0 || check[next_x][next_y]) continue;
+            int next_x = x + move_x[i];
+            int next_y = y + move_y[i];
+            
+            if (next_x < 0 || next_y < 0 || next_x > M || next_y > N ) continue;
+            if (arr[next_x][next_y] == 0 || check[next_x][next_y]) continue;
 
             dfsR(next_x, next_y);
-
         }
-        
-
 
     }
-    
-}
 
+}
