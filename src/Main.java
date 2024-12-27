@@ -3,65 +3,86 @@ package java_coding_test.src;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
     static int[][] map;
     static boolean[][] check;
-    static int[] move_x = {-1, 1, 0, 0, -1, -1, 1, 1};
-    static int[] move_y = {0, 0, -1, 1, -1, 1, -1, 1};
 
-    static int w, h;
+    static int[] move_x = {-2, 2, -1, 1, -2, 2, -1, 1};
+    static int[] move_y = {1, 1, 2, 2, -1, -1, -2, -2};
 
-    public static void main(String[] args) throws IOException {
+    static int N;
+    static int start_x, start_y, last_x, last_y;
 
+    
+    public static void main(String[] args) throws IOException{
+        
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        w = Integer.parseInt(st.nextToken());
-        h = Integer.parseInt(st.nextToken());
-
-        while (w != 0 && h != 0) {
-            map = new int[h][w];
-            check = new boolean[h][w];
-            int cnt = 0;
+        int T = Integer.parseInt(br.readLine());
+        
+        while (T != 0) {
             
-            for (int i = 0; i < h; i++) {
-                StringTokenizer st2 = new StringTokenizer(br.readLine());
-                for (int j = 0; j < w; j++) {
-                    map[i][j] = Integer.parseInt(st2.nextToken());
-                }
-            }
-
-            for (int i = 0; i < h; i++) {
-                for (int j = 0; j < w; j++) {
-                    if (map[i][j] == 1 && !check[i][j]) cnt += dfsR(i, j);
-                }
-            }
+            N = Integer.parseInt(br.readLine());
             
-            System.out.println(cnt);
-
-            StringTokenizer st3 = new StringTokenizer(br.readLine());
-            w = Integer.parseInt(st3.nextToken());
-            h = Integer.parseInt(st3.nextToken());
+            StringTokenizer st = new StringTokenizer(br.readLine());    
+            start_x = Integer.parseInt(st.nextToken());
+            start_y = Integer.parseInt(st.nextToken());
+            
+            StringTokenizer st2 = new StringTokenizer(br.readLine());
+            last_x = Integer.parseInt(st2.nextToken()); 
+            last_y = Integer.parseInt(st2.nextToken()); 
+            
+            map = new int[N][N];
+            check = new boolean[N][N];
+            
+            System.out.println(bfs(start_x, start_y, last_x, last_y));
+            
+            T--;
         }
     }
+    
+    static int bfs(int start_x, int start_y, int last_x, int last_y) {
+        
+        Queue<Spot> que = new LinkedList<>();
+        que.offer(new Spot(start_x, start_y, 0));
+        check[start_x][start_y] = true;
 
-    static int dfsR(int x, int y) {
+        while (!que.isEmpty()) {
+            Spot s = que.poll();
 
-        check[x][y] = true;
+            if (s.x == last_x && s.y == last_y) return s.cnt;
 
-        for (int i = 0; i < 8; i++) {
-            int next_x = move_x[i] + x;
-            int next_y = move_y[i] + y;
+            for (int i = 0; i < 8; i++) {
+                int next_x = move_x[i] + s.x;
+                int next_y = move_y[i] + s.y;
 
-            if (next_x < 0 || next_y < 0 || next_x >= h || next_y >= w) continue;
-            if (map[next_x][next_y] == 0 || check[next_x][next_y]) continue;
+                if (next_x < 0 || next_y < 0 || next_x >= N || next_y >= N) continue;
+                if (check[next_x][next_y]) continue;
 
-            dfsR(next_x, next_y);
+                que.offer(new Spot(next_x, next_y, s.cnt + 1));
+                check[next_x][next_y] = true;
+            }
+
         }
 
-        return 1;
+        return - 1;
+
+    }
+
+
+}
+
+class Spot {
+    int x, y, cnt;
+
+    Spot(int x, int y, int cnt) {
+        this.x = x;
+        this.y = y;
+        this.cnt = cnt;
     }
 }
