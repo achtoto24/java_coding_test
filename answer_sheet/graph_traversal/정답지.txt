@@ -812,3 +812,113 @@ class Spot {
         this.cnt = cnt;
     }
 }
+
+#2644
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static int[][] arr;
+    static int[] check;
+
+    static int start, end;
+    static int N, line;
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        start = Integer.parseInt(st.nextToken());
+        end = Integer.parseInt(st.nextToken());
+        
+        arr = new int[N + 1][N + 1];
+        check = new int[N + 1];
+
+        line = Integer.parseInt(br.readLine());
+        for (int i = 0; i < line; i++) {
+            StringTokenizer st2 = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st2.nextToken());
+            int b = Integer.parseInt(st2.nextToken());
+            
+            arr[a][b] = arr[b][a] = 1;
+        }
+
+        dfsR(start);
+        System.out.println(check[end] == 0 ? -1 : check[end]);
+        
+    }
+
+    static void dfsR(int start) {
+
+        if (start == end) return;
+        
+        for (int i = 1; i <= N; i++) {
+            if (arr[start][i] == 1 && check[i] == 0) {
+                check[i] = check[start] + 1;
+                dfsR(i);
+            }
+        }
+
+    }
+}
+
+#16953
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static long A, B;
+    static HashMap<Long, Integer> check = new HashMap<>();
+    static Queue<Long> que = new LinkedList<>();
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        A = Long.parseLong(st.nextToken());
+        B = Long.parseLong(st.nextToken());
+
+        System.out.println(bfs(A));
+
+    }
+
+    static int bfs(long start) {
+
+        que.offer(start);
+        check.put(start, 1);
+
+        while (!que.isEmpty()) {
+            start = que.poll();
+
+            if (start == B) return check.get(start);
+
+            if (start * 2 <= B && !check.containsKey(start * 2)) {
+                que.offer(start * 2);
+                check.put(start * 2, check.get(start) + 1);
+            }
+            if (start * 10 + 1 <= B && !check.containsKey(start * 10 - 1)) {
+                que.offer(start * 10 + 1);
+                check.put(start * 10 + 1, check.get(start) + 1);
+            }
+        }
+        
+        return -1;
+    }
+}
