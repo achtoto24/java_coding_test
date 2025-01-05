@@ -1,0 +1,106 @@
+#10026
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOError;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    static char[] rgb = {'R', 'G', 'B'};
+    static char[][] arr;
+    static boolean[][] check;
+    static int[] move_x = {-1, 1, 0, 0};
+    static int[] move_y = {0, 0, -1, 1};
+
+    static int N;
+    
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        N = Integer.parseInt(br.readLine());
+
+        arr = new char[N][N];
+        for (int i = 0; i < N; i++) {
+            String str  = br.readLine();
+            for (int j = 0; j < N; j++) {
+                arr[i][j] = str.charAt(j);
+            }
+        }
+
+        int res1 = 0;
+        for (int i = 0; i < 3; i++) {
+            check = new boolean[N][N];
+            for (int j = 0; j < N; j++) {
+                for (int k = 0; k < N; k++) {
+                    if (arr[j][k] == rgb[i] && !check[j][k]) {
+                        dfsR(j, k, rgb[i]);
+                        res1++;
+                    }
+                }
+            }        
+        }
+        
+        
+        int res2 = 0;
+        check = new boolean[N][N];
+        for (int j = 0; j < N; j++) {
+            for (int k = 0; k < N; k++) {
+                if (arr[j][k] != 'B' && !check[j][k]) {
+                    dfsR_RG(j, k, true);
+                    res2++;
+                }
+                else if (arr[j][k] == 'B' && !check[j][k]) {
+                    dfsR_RG(j, k, false);
+                    res2++;
+                }
+            }
+        }        
+
+        System.out.println(res1 + " " + res2);
+        
+
+    }
+
+    static void dfsR(int x, int y, char c) {
+
+        check[x][y] = true;
+
+        for (int i = 0; i < 4; i++) {
+            int next_x = move_x[i] + x;
+            int next_y = move_y[i] + y;
+
+            if (next_x < 0 || next_y <0 || next_x >= N || next_y >= N) continue;
+            if (arr[next_x][next_y] != c || check[next_x][next_y]) continue;
+
+            dfsR(next_x, next_y, c);
+        }
+
+    }
+
+    static void dfsR_RG(int x, int y, boolean flag) {
+
+        check[x][y] = true;
+
+        for (int i = 0; i < 4; i++) {
+            int next_x = move_x[i] + x;
+            int next_y = move_y[i] + y;
+
+            if (next_x < 0 || next_y <0 || next_x >= N || next_y >= N) continue;
+            if (flag) {
+                if (arr[next_x][next_y] == 'B' || check[next_x][next_y]) continue;
+                dfsR_RG(next_x, next_y, flag);
+            }
+            else {
+                if (arr[next_x][next_y] == 'R' || arr[next_x][next_y] == 'G' || check[next_x][next_y]) continue;
+                dfsR_RG(next_x, next_y, flag);
+            }
+        }
+
+    }
+    
+    
+}

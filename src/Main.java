@@ -1,51 +1,75 @@
 package java_coding_test.src;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.Scanner;
+
+/* 다시 내 풀이로 작성해보기 */
 
 public class Main {
+    static int n;
+    static char[][] graph;
+    static boolean[][] visited;
+    static int count = 0;
+    static int[][] pos = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-    static long A, B;
-    static HashMap<Long, Integer> check = new HashMap<>();
-    static Queue<Long> que = new LinkedList<>();
+    static void dfs(int x, int y) {
+        visited[x][y] = true;
+        char temp = graph[x][y];
+        for (int i = 0; i < pos.length; i++) {
+            int nx = x + pos[i][0];
+            int ny = y + pos[i][1];
 
-    public static void main(String[] args) throws IOException {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        A = Long.parseLong(st.nextToken());
-        B = Long.parseLong(st.nextToken());
-
-        System.out.println(bfs(A));
+            if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visited[nx][ny] && graph[nx][ny] == temp) {
+                dfs(nx, ny);
+            }
+        }
 
     }
 
-    static int bfs(long start) {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        que.offer(start);
-        check.put(start, 1);
+        n = sc.nextInt();
+        graph = new char[n][n];
+        visited = new boolean[n][n];
 
-        while (!que.isEmpty()) {
-            start = que.poll();
-
-            if (start == B) return check.get(start);
-
-            if (start * 2 <= B && !check.containsKey(start * 2)) {
-                que.offer(start * 2);
-                check.put(start * 2, check.get(start) + 1);
-            }
-            if (start * 10 + 1 <= B && !check.containsKey(start * 10 - 1)) {
-                que.offer(start * 10 + 1);
-                check.put(start * 10 + 1, check.get(start) + 1);
+        for (int i = 0; i < n; i++) {
+            String str = sc.next();
+            for (int j = 0; j < n; j++) {
+                graph[i][j] = str.charAt(j);
             }
         }
-        
-        return -1;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!visited[i][j]) {
+                    dfs(i, j);
+                    count++;
+                }
+            }
+        }
+        System.out.print(count + " ");
+        count = 0;
+        visited = new boolean[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (graph[i][j] == 'G') {
+                    graph[i][j] = 'R';
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!visited[i][j]) {
+                    dfs(i, j);
+                    count++;
+                }
+            }
+        }
+
+        System.out.println(count);
+
+
     }
 }
