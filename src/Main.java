@@ -1,75 +1,64 @@
 package java_coding_test.src;
 
-import java.util.Scanner;
-
-/* 다시 내 풀이로 작성해보기 */
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class Main {
-    static int n;
-    static char[][] graph;
-    static boolean[][] visited;
-    static int count = 0;
+
+    static char[][] arr;
+    static boolean[][] check;
     static int[][] pos = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    
+    static ArrayList<Character> list = new ArrayList<>();
+    static int R, C, cnt;
 
-    static void dfs(int x, int y) {
-        visited[x][y] = true;
-        char temp = graph[x][y];
-        for (int i = 0; i < pos.length; i++) {
-            int nx = x + pos[i][0];
-            int ny = y + pos[i][1];
+    public static void main(String[] args) throws IOException {
 
-            if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visited[nx][ny] && graph[nx][ny] == temp) {
-                dfs(nx, ny);
-            }
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+
+        arr = new char[R][C];
+        for (int i = 0; i < R; i++) {
+            String str = br.readLine();
+            for (int j = 0; j < C; j++) {
+                arr[i][j] = str.charAt(j);
+            } 
         }
+
+        check = new boolean[R][C];
+        cnt = 1;
+        dfsR(0, 0);
+
+        System.out.println(cnt);
 
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void dfsR(int x, int y) {
 
-        n = sc.nextInt();
-        graph = new char[n][n];
-        visited = new boolean[n][n];
+        check[x][y] = true;
+        char temp = arr[x][y];
+        list.add(temp);
 
-        for (int i = 0; i < n; i++) {
-            String str = sc.next();
-            for (int j = 0; j < n; j++) {
-                graph[i][j] = str.charAt(j);
+        a :
+        for (int i = 0; i < 4; i++) {
+            int next_x = pos[i][0] + x; 
+            int next_y = pos[i][1] + y; 
+
+            if (next_x < 0 || next_y < 0 || next_x >= R || next_y >= C) continue;
+            for (int j = 0; j < list.size(); j++) {
+                if (arr[next_x][next_y] == list.get(j)) continue a;
             }
+            if (check[next_x][next_y]) continue;
+
+            cnt++;
+            dfsR(next_x, next_y);
         }
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (!visited[i][j]) {
-                    dfs(i, j);
-                    count++;
-                }
-            }
-        }
-        System.out.print(count + " ");
-        count = 0;
-        visited = new boolean[n][n];
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (graph[i][j] == 'G') {
-                    graph[i][j] = 'R';
-                }
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (!visited[i][j]) {
-                    dfs(i, j);
-                    count++;
-                }
-            }
-        }
-
-        System.out.println(count);
-
 
     }
 }
