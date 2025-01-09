@@ -188,3 +188,113 @@ public class Main {
     }
 
 }
+
+#1707-1 -> 오답코드
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static char[][] arr;
+    static boolean[] check = new boolean[26];
+
+    static int[][] pos = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    static int R, C;
+    static int result = 0;
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+
+        arr = new char[R][C];
+        for (int i = 0; i < R; i++) {
+            String str = br.readLine();
+            for (int j = 0; j < C; j++) {
+                arr[i][j] = str.charAt(j);                
+            }
+        }
+        
+        dfsR(0, 0, 0);
+        
+        System.out.println(result);
+
+    }
+
+    // 백트래킹 + dfs 알고리즘
+    static void dfsR(int x, int y, int cnt) {
+         
+        if (check[arr[x][y] - 'A']) {
+            result = Math.max(cnt, result);
+            return;
+        } else {
+            check[arr[x][y] - 'A'] = true;
+
+            for (int i = 0; i < 4; i++) {
+                int nx = pos[i][0] + x; 
+                int ny = pos[i][1] + y; 
+
+                if (nx < 0 || ny < 0 || nx >= R || ny >= C) continue;
+
+                dfsR(nx, ny, cnt +1);
+            }
+
+            check[arr[x][y] - 'A'] = false;
+        }
+
+    }
+
+}
+
+#1707-2 -> 복사해서 제출한 코드
+package java_coding_test;
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int R, C, answer = 0;
+    static char[][] graph;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static HashSet<Character> alphabet;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+        graph = new char[R][C];
+
+        for (int i = 0; i < R; i++) {
+            String input = br.readLine();
+            for (int j = 0; j < C; j++) {
+                graph[i][j] = input.charAt(j);
+            }
+        }
+        alphabet = new HashSet<>(); // HashSet 초기화
+        back(0, 0, 1); //
+        System.out.println(answer);
+    }
+    static void back(int x, int y, int count) {
+        answer = Math.max(answer, count);
+        alphabet.add(graph[x][y]);
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (nx >= 0 && nx < R && ny >= 0 && ny < C) {
+                if (!alphabet.contains(graph[nx][ny])) { // 처음 방문한 알파벳일 경우
+                    back(nx, ny, count + 1);
+                }
+            }
+        }
+        alphabet.remove(graph[x][y]); // 이전 상태로 돌아가기 위해 제거
+    }
+}
