@@ -9,103 +9,115 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    static int[][][] arr;
-    static boolean[][][] check;
-    static int[][] pos = {
-                          {-1, 0, 0}, {1, 0, 0}, {0, -1, 0},
-                          {0, 1, 0}, {0, 0, -1}, {0, 0, 1}
-                         };
 
-    static int M, N, H;
-    static int day = 0;
-    static int label = 1;
-    
+    static int[][] arr, arr2;
+    static boolean[][] check;
+    static int[][] pos = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    static int N, M;
+    static int max_value = Integer.MIN_VALUE;
     static Queue<Node> que = new LinkedList<>();
-    
-    public static void main(String[] args) throws IOException {
 
+    public static void main(String[] args) throws IOException {
+        
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(br.readLine());
-        M = Integer.parseInt(st.nextToken());
         N = Integer.parseInt(st.nextToken());
-        H = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        arr = new int[H][N][M];
-        check = new boolean[H][N][M];
-        int cnt = 0;
-        for (int i = 0; i < H; i++) {
-            for (int j = 0; j < N; j++) {
-                StringTokenizer st2 = new StringTokenizer(br.readLine());
-                for (int k = 0; k < M; k++) {
-                    arr[i][j][k] = Integer.parseInt(st2.nextToken());
-                    if(arr[i][j][k] == 1) que.offer(new Node(j, k, i, label));
-                    else if (arr[i][j][k] == 0) cnt++;
-                }
+        arr = new int[N][M];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < M; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        if (cnt != 0) {
+        dfsR(0); 
+
+        System.out.println(max_value);
+
+    }
+
+    static void dfsR(int cnt) {
+
+        if (cnt == 3) {
+            arr2 = new int[N][M];
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < M; j++) {
+                    arr2[i][j] = arr[i][j];
+                }
+            }
+            check = new boolean[N][M];
+
             bfs();
-        } else {
-            System.out.println(0);
             return;
         }
-        
-        for (int i = 0; i < H; i++) {
-            for (int j = 0; j < N; j++) {
-                for (int k = 0; k < M; k++) {
-                    if (arr[i][j][k] == 0 && !check[i][j][k]) {
-                        System.out.println(-1);
-                        return;
-                    }
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (arr[i][j] == 0) {
+                    arr[i][j] = 1;
+                    dfsR(cnt + 1);
+                    arr[i][j] = 0;
                 }
             }
         }
 
-        System.out.println(day);
-        
-                
     }
 
     static void bfs() {
 
-        int temp_label = 1;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (arr[i][j] == 2) que.offer(new Node(i, j));
+            }
+        }
+
         while (!que.isEmpty()) {
             Node n = que.poll();
-            if (temp_label != n.label) {
-                temp_label = n.label;
-                day++;
-            }
-            label = n.label + 1;
 
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 4; i++) {
                 int nx = pos[i][0] + n.x;
                 int ny = pos[i][1] + n.y;
-                int nz = pos[i][2] + n.z;
 
-                if (nx < 0 || ny < 0 || nz < 0 || nx >= N || ny >= M || nz >= H) continue;
-                if (arr[nz][nx][ny] == -1 || check[nz][nx][ny]) continue;
-                
-                check[nz][nx][ny] = true;
-                que.offer(new Node(nx, ny, nz, label));
+                if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+                if (arr[nx][ny] != 0 || check[nx][ny]) continue;
+
+                que.offer(new Node(nx, ny));
+                check[nx][ny] = true;
+                arr2[nx][ny] = 2;
             }
-
         }
-        
+
+        result_max();
+
     }
+
+    static void result_max() {
+
+        int temp_max_value = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (arr2[i][j] == 0) temp_max_value++; 
+            }
+        }
+
+        if (max_value < temp_max_value) max_value = temp_max_value;
+
+    }
+
 
 }
 
 class Node {
-    
-    int x, y, z, label;
 
-    Node(int x, int y, int z, int label) {
+    int x, y;
+
+    Node(int x, int y) {
         this.x = x;
         this.y = y;
-        this.z = z;
-        this.label = label;
     }
 
 }
