@@ -1,0 +1,162 @@
+#2798
+
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+    
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        int[] arr = new int[N];
+
+        for (int i = 0; i < N; i++) {
+            int st;
+            do {
+                int num = sc.nextInt();
+                st = num;
+                if (num < M) {
+                    arr[i] = num;
+                    break;
+                }
+            }while(st > M);
+        }
+
+        int max = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                for (int k = j + 1; k < arr.length; k++) {
+                    if (arr[i] + arr[j] + arr[k]> max && arr[i] + arr[j] + arr[k] <= M)
+                        max = arr[i] + arr[j] + arr[k];
+                }
+            }
+        }
+
+        System.out.println(max);
+    }
+}
+
+#2231
+
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+    
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        String N_str = String.valueOf(N);
+        int M = 0;
+        
+        for (int i = N - 9 * N_str.length(); i <= N - N_str.length(); i++) {
+            String str = String.valueOf(i);
+            
+            int sum = i;
+            for (int j = 0; j < str.length(); j++) 
+                sum += Integer.valueOf(str.charAt(j) - '0');
+            
+            if (sum == N) {
+                M = i;
+                break;
+            }
+        }
+
+        System.out.println(M);
+    }
+}
+
+#19532
+
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+		int a = sc.nextInt();
+		int b = sc.nextInt();
+		int c = sc.nextInt();
+		int d = sc.nextInt();
+		int e = sc.nextInt();
+		int f = sc.nextInt();
+		for (int i = -999; i < 1000; i++) {
+			for (int j = -999; j < 1000; j++) {
+				if(a*i+b*j==c && d*i+e*j==f) {
+					System.out.println(i+" "+j);
+					System.exit(0);
+				}
+			}
+		}
+    }
+}
+
+#1436
+
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int order = sc.nextInt();
+        int num = 666;
+        int cnt = 0;
+
+        while (true) {
+            String num_str = String.valueOf(num);
+            if (num_str.contains("666")) {
+                if (++cnt == order) {
+                    System.out.println(num);
+                    break;
+                }
+            }
+            num++;
+        }
+
+
+    }
+}
+
+#2839
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner((System.in));
+        int N = sc.nextInt();
+        int cnt1 = 0;
+        int cnt2 = 0;
+        int n3 = 0;
+        int n5 = 0;
+
+        if (N % 5 == 0) 
+            cnt1 = N / 5;
+        else if (N % 3 == 0) 
+            cnt1 = N / 3;
+        loop :
+        for (int i = 1; i <= N / 3; i++) {
+            for (int j = 1; j <= N / 5; j++) {
+                if (3 * i + 5 * j == N) {
+                    cnt2 = i + j;   // 처음 게산된 cnt2 값이 가장 작은 값이므로 이중for문을 바로 나와야 함
+                    break loop;
+                }
+            }
+        }
+
+
+        if (cnt1 > 0 && cnt2 > 0) 
+            System.out.println(Math.min(cnt1, cnt2));
+        else if (cnt1 > 0 && cnt2 == 0)
+            System.out.println(cnt1);
+        else if (cnt1 == 0 && cnt2 > 0)
+            System.out.println(cnt2);
+        else
+            System.out.println(-1);
+        
+
+    }
+
+}
+
+
+

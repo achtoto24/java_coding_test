@@ -1,0 +1,649 @@
+#10026-1
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOError;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    static char[] rgb = {'R', 'G', 'B'};
+    static char[][] arr;
+    static boolean[][] check;
+    static int[] move_x = {-1, 1, 0, 0};
+    static int[] move_y = {0, 0, -1, 1};
+
+    static int N;
+    
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        N = Integer.parseInt(br.readLine());
+
+        arr = new char[N][N];
+        for (int i = 0; i < N; i++) {
+            String str  = br.readLine();
+            for (int j = 0; j < N; j++) {
+                arr[i][j] = str.charAt(j);
+            }
+        }
+
+        int res1 = 0;
+        for (int i = 0; i < 3; i++) {
+            check = new boolean[N][N];
+            for (int j = 0; j < N; j++) {
+                for (int k = 0; k < N; k++) {
+                    if (arr[j][k] == rgb[i] && !check[j][k]) {
+                        dfsR(j, k, rgb[i]);
+                        res1++;
+                    }
+                }
+            }        
+        }
+        
+        
+        int res2 = 0;
+        check = new boolean[N][N];
+        for (int j = 0; j < N; j++) {
+            for (int k = 0; k < N; k++) {
+                if (arr[j][k] != 'B' && !check[j][k]) {
+                    dfsR_RG(j, k, true);
+                    res2++;
+                }
+                else if (arr[j][k] == 'B' && !check[j][k]) {
+                    dfsR_RG(j, k, false);
+                    res2++;
+                }
+            }
+        }        
+
+        System.out.println(res1 + " " + res2);
+        
+
+    }
+
+    static void dfsR(int x, int y, char c) {
+
+        check[x][y] = true;
+
+        for (int i = 0; i < 4; i++) {
+            int next_x = move_x[i] + x;
+            int next_y = move_y[i] + y;
+
+            if (next_x < 0 || next_y <0 || next_x >= N || next_y >= N) continue;
+            if (arr[next_x][next_y] != c || check[next_x][next_y]) continue;
+
+            dfsR(next_x, next_y, c);
+        }
+
+    }
+
+    static void dfsR_RG(int x, int y, boolean flag) {
+
+        check[x][y] = true;
+
+        for (int i = 0; i < 4; i++) {
+            int next_x = move_x[i] + x;
+            int next_y = move_y[i] + y;
+
+            if (next_x < 0 || next_y <0 || next_x >= N || next_y >= N) continue;
+            if (flag) {
+                if (arr[next_x][next_y] == 'B' || check[next_x][next_y]) continue;
+                dfsR_RG(next_x, next_y, flag);
+            }
+            else {
+                if (arr[next_x][next_y] == 'R' || arr[next_x][next_y] == 'G' || check[next_x][next_y]) continue;
+                dfsR_RG(next_x, next_y, flag);
+            }
+        }
+
+    }
+    
+    
+}
+
+#10026-2
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    static int N;
+    static char[][] arr;
+    static boolean[][] check;
+    static int[][] pos = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        N = Integer.parseInt(br.readLine());
+
+        arr = new char[N][N];
+        
+        for (int i = 0; i < N; i++) {
+            String str = br.readLine();
+            for (int j = 0; j < N; j++) {
+                arr[i][j] = str.charAt(j);
+            }
+        }
+        
+        
+        check = new boolean[N][N];
+        int res1 = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (!check[i][j]) {
+                    dfsR(i, j);
+                    res1++;
+                }
+            }
+        }
+
+        
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (arr[i][j] == 'G') arr[i][j] = 'R';
+            }
+        }
+
+        
+        check = new boolean[N][N];
+        int res2 = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (!check[i][j]) {
+                    dfsR(i, j);
+                    res2++;
+                }
+            }
+        }
+
+        System.out.println(res1 + " " + res2);
+        
+    }
+
+    static void dfsR(int x, int y) {
+
+        check[x][y] = true;
+        char temp = arr[x][y];
+
+        for (int i = 0; i < 4; i++) {
+            int next_x = pos[i][0] + x;
+            int next_y = pos[i][1] + y;
+
+            if (next_x < 0 || next_y < 0 || next_x >= N || next_y >= N) continue;
+            if (arr[next_x][next_y] != temp || check[next_x][next_y]) continue;
+
+            dfsR(next_x, next_y);
+        }
+        
+    }
+
+}
+
+#1707-1 -> 오답코드
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static char[][] arr;
+    static boolean[] check = new boolean[26];
+
+    static int[][] pos = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    static int R, C;
+    static int result = 0;
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+
+        arr = new char[R][C];
+        for (int i = 0; i < R; i++) {
+            String str = br.readLine();
+            for (int j = 0; j < C; j++) {
+                arr[i][j] = str.charAt(j);                
+            }
+        }
+        
+        dfsR(0, 0, 0);
+        
+        System.out.println(result);
+
+    }
+
+    // 백트래킹 + dfs 알고리즘
+    static void dfsR(int x, int y, int cnt) {
+         
+        if (check[arr[x][y] - 'A']) {
+            result = Math.max(cnt, result);
+            return;
+        } else {
+            check[arr[x][y] - 'A'] = true;
+
+            for (int i = 0; i < 4; i++) {
+                int nx = pos[i][0] + x; 
+                int ny = pos[i][1] + y; 
+
+                if (nx < 0 || ny < 0 || nx >= R || ny >= C) continue;
+
+                dfsR(nx, ny, cnt +1);
+            }
+
+            check[arr[x][y] - 'A'] = false;
+        }
+
+    }
+
+}
+
+#1707-2 -> 복사해서 제출한 코드
+package java_coding_test;
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int R, C, answer = 0;
+    static char[][] graph;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static HashSet<Character> alphabet;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+        graph = new char[R][C];
+
+        for (int i = 0; i < R; i++) {
+            String input = br.readLine();
+            for (int j = 0; j < C; j++) {
+                graph[i][j] = input.charAt(j);
+            }
+        }
+        alphabet = new HashSet<>(); // HashSet 초기화
+        back(0, 0, 1); //
+        System.out.println(answer);
+    }
+    static void back(int x, int y, int count) {
+        answer = Math.max(answer, count);
+        alphabet.add(graph[x][y]);
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (nx >= 0 && nx < R && ny >= 0 && ny < C) {
+                if (!alphabet.contains(graph[nx][ny])) { // 처음 방문한 알파벳일 경우
+                    back(nx, ny, count + 1);
+                }
+            }
+        }
+        alphabet.remove(graph[x][y]); // 이전 상태로 돌아가기 위해 제거
+    }
+}
+
+#7576
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static int[][] arr;
+    static boolean[][] check;
+    static int[][] pos = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    static int M, N, label;
+    static int cnt = 0;
+
+    static Queue<Node> que = new LinkedList<>(); 
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        
+        arr = new int[N][M];
+        check = new boolean[N][M];
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st2 = new StringTokenizer(br.readLine());
+            for (int j = 0; j < M; j++) {
+                arr[i][j] = Integer.parseInt(st2.nextToken());
+            }
+        }
+
+        int cnt2 = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (arr[i][j] == 1)  {
+                    que.offer(new Node(i, j, 1));
+                    cnt2++;
+                }
+            }
+        }
+
+        if (cnt2 == N * M) {
+            System.out.println(0);
+            return;
+        } else bfs();
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (arr[i][j] == 0 && !check[i][j])  {
+                    System.out.println(-1); 
+                    return;
+                }
+            }
+        }
+
+        System.out.println(cnt - 1);
+
+    }
+
+    static void bfs() {
+
+        int temp_label = label;
+        
+        while (!que.isEmpty()) {
+            Node n = que.poll();
+            if (n.label != temp_label) {
+                cnt++;
+                temp_label = n.label;
+            } 
+
+            label = n.label + 1;
+
+            for (int i = 0; i < 4; i++) {
+                int nx = pos[i][0] + n.x;
+                int ny = pos[i][1] + n.y;
+
+                if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+                if (arr[nx][ny] == -1 || check[nx][ny]) continue;
+                    
+                que.offer(new Node(nx, ny, label));
+                check[nx][ny] = true;
+            }
+        }
+        
+    }
+   
+}
+
+class Node {
+
+    int x, y, label;
+
+    Node (int x, int y, int label) {
+        this.x = x;
+        this.y = y;
+        this.label = label;
+    }
+
+}
+
+#7569
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static int[][][] arr;
+    static boolean[][][] check;
+    static int[][] pos = {
+                          {-1, 0, 0}, {1, 0, 0}, {0, -1, 0},
+                          {0, 1, 0}, {0, 0, -1}, {0, 0, 1}
+                         };
+
+    static int M, N, H;
+    static int day = 0;
+    static int label = 1;
+    
+    static Queue<Node> que = new LinkedList<>();
+    
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        H = Integer.parseInt(st.nextToken());
+
+        arr = new int[H][N][M];
+        check = new boolean[H][N][M];
+        int cnt = 0;
+        for (int i = 0; i < H; i++) {
+            for (int j = 0; j < N; j++) {
+                StringTokenizer st2 = new StringTokenizer(br.readLine());
+                for (int k = 0; k < M; k++) {
+                    arr[i][j][k] = Integer.parseInt(st2.nextToken());
+                    if(arr[i][j][k] == 1) que.offer(new Node(j, k, i, label));
+                    else if (arr[i][j][k] == 0) cnt++;
+                }
+            }
+        }
+
+        if (cnt != 0) {
+            bfs();
+        } else {
+            System.out.println(0);
+            return;
+        }
+        
+        for (int i = 0; i < H; i++) {
+            for (int j = 0; j < N; j++) {
+                for (int k = 0; k < M; k++) {
+                    if (arr[i][j][k] == 0 && !check[i][j][k]) {
+                        System.out.println(-1);
+                        return;
+                    }
+                }
+            }
+        }
+
+        System.out.println(day);
+        
+                
+    }
+
+    static void bfs() {
+
+        int temp_label = 1;
+        while (!que.isEmpty()) {
+            Node n = que.poll();
+            if (temp_label != n.label) {
+                temp_label = n.label;
+                day++;
+            }
+            label = n.label + 1;
+
+            for (int i = 0; i < 6; i++) {
+                int nx = pos[i][0] + n.x;
+                int ny = pos[i][1] + n.y;
+                int nz = pos[i][2] + n.z;
+
+                if (nx < 0 || ny < 0 || nz < 0 || nx >= N || ny >= M || nz >= H) continue;
+                if (arr[nz][nx][ny] == -1 || check[nz][nx][ny]) continue;
+                
+                check[nz][nx][ny] = true;
+                que.offer(new Node(nx, ny, nz, label));
+            }
+
+        }
+        
+    }
+
+}
+
+class Node {
+    
+    int x, y, z, label;
+
+    Node(int x, int y, int z, int label) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.label = label;
+    }
+
+}
+
+
+#14502
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+
+    static int[][] arr, arr2;
+    static boolean[][] check;
+    static int[][] pos = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    static int N, M;
+    static int max_value = Integer.MIN_VALUE;
+    static Queue<Node> que = new LinkedList<>();
+
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
+        arr = new int[N][M];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < M; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        dfsR(0); 
+
+        System.out.println(max_value);
+
+    }
+
+    static void dfsR(int cnt) {
+
+        if (cnt == 3) {
+            arr2 = new int[N][M];
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < M; j++) {
+                    arr2[i][j] = arr[i][j];
+                }
+            }
+            check = new boolean[N][M];
+
+            bfs();
+            return;
+        }
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (arr[i][j] == 0) {
+                    arr[i][j] = 1;
+                    dfsR(cnt + 1);
+                    arr[i][j] = 0;
+                }
+            }
+        }
+
+    }
+
+    static void bfs() {
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (arr[i][j] == 2) que.offer(new Node(i, j));
+            }
+        }
+
+        while (!que.isEmpty()) {
+            Node n = que.poll();
+
+            for (int i = 0; i < 4; i++) {
+                int nx = pos[i][0] + n.x;
+                int ny = pos[i][1] + n.y;
+
+                if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+                if (arr[nx][ny] != 0 || check[nx][ny]) continue;
+
+                que.offer(new Node(nx, ny));
+                check[nx][ny] = true;
+                arr2[nx][ny] = 2;
+            }
+        }
+
+        result_max();
+
+    }
+
+    static void result_max() {
+
+        int temp_max_value = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (arr2[i][j] == 0) temp_max_value++; 
+            }
+        }
+
+        if (max_value < temp_max_value) max_value = temp_max_value;
+
+    }
+
+
+}
+
+class Node {
+
+    int x, y;
+
+    Node(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+}

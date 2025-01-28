@@ -1,0 +1,596 @@
+#9093
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.util.StringTokenizer;
+import java.util.Stack;
+
+/*
+ * 스택의 기본 설명
+ */
+public class Main {
+
+    public static void main(String[] args) throws IOException{
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
+
+        while (T > 0) {
+            Stack<Character> stack = new Stack<>();
+            String str = br.readLine();
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < str.length(); i++) {
+                if (str.charAt(i) == ' ') {
+                    while (!stack.empty()) 
+                        sb.append(stack.pop());
+                    sb.append(" ");
+                }
+                else {
+                    stack.push(str.charAt(i));
+                }
+            }
+            
+            while(!stack.empty())
+                sb.append(stack.pop());
+                
+            System.out.println(sb);
+
+            T--;
+        }
+
+    }
+
+}
+
+#1406
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+// 스택을 이용한 풀이
+/*
+ * 왼쪽 스택과 오른쪽 스택을 준비하고 두 스택 가운데를 커서라고 가정함
+ * 만약 커서가 왼쪽으로 움직이면 왼쪽 스택 top 요소는 오른쪽 스택으로 옮겨짐
+ * 이런식으로 에디터 조건을 구현
+ * 결론적으로 오른쪽 스택에 전부 요소를 넣어 pop을 하면 원하는 문자열이 출력됨! 
+ * 솔직히 처음 아이디어를 떠올리기 어려웠음...
+ */
+public class Main {
+    
+    static Stack<Character> leftStr;
+    static Stack<Character> rightStr;
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = br.readLine();
+
+        leftStr = new Stack<>();
+        rightStr = new Stack<>();
+        for (int i = 0; i < str.length(); i++)
+            leftStr.push(str.charAt(i));
+
+        int N = Integer.parseInt(br.readLine());
+
+        while (N > 0) {
+            String op = br.readLine();
+
+            switch (op.charAt(0)) {
+                case 'L':
+                    if (!leftStr.isEmpty())
+                        rightStr.push(leftStr.pop());
+
+                    break;
+            
+                case 'D':
+                    if (!rightStr.isEmpty())
+                        leftStr.push(rightStr.pop());
+
+                    break;
+
+                case 'B':
+                    if (!leftStr.isEmpty())
+                        leftStr.pop();
+
+                    break;
+
+                case 'P':
+                    char c = op.charAt(2);
+                    leftStr.push(c);
+                    break;
+            }
+            N--;
+        }
+
+        while (!leftStr.isEmpty()) 
+            rightStr.push(leftStr.pop());
+        
+        StringBuilder sb = new StringBuilder();
+        while (!rightStr.isEmpty()) 
+            sb.append(rightStr.pop());
+        
+
+        System.out.println(sb);
+
+    }
+}
+
+#9012
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+/*
+ * '('는 스택에 push하고 ')'는 스택에서 pop을 하면 됨
+ * 결과적으로 스택에 '(' 이나 ')'이 남아있으면 VPS를 만족하지 못 함 
+ */
+public class Main {
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.parseInt(br.readLine());
+		
+		for(int i = 0; i < T; i++) {
+			String S = br.readLine();
+			
+			Stack<Character> stack = new Stack<Character>();
+			
+			for (int j = 0; j < S.length(); j++) {
+				if (S.charAt(j) == '(') 
+					stack.push(S.charAt(j));
+				else {
+					//비어있는지를 먼저 본다.
+					if (stack.isEmpty()) {
+						stack.push(S.charAt(j));
+						break;
+					}else 
+						stack.pop();
+				}
+			}
+			if (stack.isEmpty()) System.out.println("YES");
+			else System.out.println("NO");
+		}
+	}
+
+}
+
+#1874
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.Stack;
+ 
+public class Main {
+	public static void main(String[] args) throws IOException {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();	// 출력할 결과물 저장
+		
+		Stack<Integer> stack = new Stack<>();
+		
+		int N = Integer.parseInt(br.readLine());
+		
+		int start = 0;
+		
+		// N 번 반복
+		while(N -- > 0) {
+			
+			int value = Integer.parseInt(br.readLine());
+			
+			if(value > start) {
+				// start + 1부터 입력받은 value 까지 push를 한다.
+				for(int i = start + 1; i <= value; i++) {
+					stack.push(i);
+					sb.append('+').append('\n');	// + 를 저장한다. 
+				}
+				start = value; 	// 다음 push 할 때의 오름차순을 유지하기 위한 변수 초기화 
+			}
+			
+			// top에 있는 원소가 입력받은 값과 같이 않은 경우  
+			else if(stack.peek() != value) {
+				System.out.println("NO");
+				return;		// 또는 System.exit(0); 으로 대체해도 됨. 
+			}
+			
+			stack.pop();
+			sb.append('-').append('\n');
+			
+		}
+		
+		System.out.println(sb);
+	}
+}
+
+#17298
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.Stack;
+
+/*
+ * <'스택 수열' 문제>
+ * 스택에는 배열 요소의 인덱스가 담김
+ * 조회하는 배열의 요소와 스택의 최상위 요소를 인덱스로 하는 요소를 비교하여
+ * 조회하는 요소가 크다면 그것을 스택의 최상위 요소를 인덱스로 하는 요소 값으로 변경
+ * 이 과정에서 스택에서 pop하여 스택의 최상위 요소를 변경
+ * 반복문이 끝나면 조회하는 요소의 인덱스를 스택에 push함
+ */
+public class Main {
+	
+	public static void main(String[] args) throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int[] arr = new int[N];
+		for (int i = 0; i < N; i++) 
+			arr[i] = Integer.parseInt(st.nextToken());
+		
+		Stack<Integer> stack = new Stack<>();
+			
+		for (int i = 0; i < N; i++) {
+			while (!stack.isEmpty() && arr[stack.peek()] < arr[i])
+			arr[stack.pop()] = arr[i];
+			
+			stack.push(i);
+		}
+			
+		while (!stack.isEmpty()) 
+			arr[stack.pop()] = -1;
+		
+		StringBuilder sb = new StringBuilder();
+		for (int i : arr)
+			sb.append(i).append(" ");		
+	
+		System.out.println(sb);
+	}
+
+}
+
+#1918
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class Main {
+
+    public static int getPriority(char operator) {
+
+        if (operator == '+' || operator == '-')
+            return 1;
+        else if (operator == '*' || operator == '/')
+            return 2;
+        return 0;
+
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = br.readLine();
+        
+        Stack<Character> stack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < str.length(); i++) {
+            char currentChar = str.charAt(i);
+
+            switch (currentChar) {
+                case '+':
+                case '-':
+                    while (!stack.isEmpty() && getPriority(stack.peek()) >= getPriority(currentChar)) 
+                        sb.append(stack.pop());
+                    stack.push(currentChar);
+                    break;
+                
+                case '*':
+                case '/':
+                    while (!stack.isEmpty() && getPriority(stack.peek()) >= getPriority(currentChar))
+                        sb.append(stack.pop());
+                    stack.push(currentChar);
+                    break;
+
+                case '(':
+                    stack.push(currentChar);
+                    break;
+
+                case ')':
+                    while (!stack.isEmpty() && stack.peek() != '(')
+                        sb.append(stack.pop());
+                    stack.pop();    // '(' 제거
+                    break;
+
+                default:
+                    sb.append(currentChar);
+                    break;
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+        }
+
+        System.out.println(sb);
+    
+
+    }
+}
+
+#17299
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.Stack;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+
+        Stack<Integer> stack = new Stack<>();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        
+        int[] count = new int[1_000_001];
+        int[] result = new int[N];
+        int[] arr = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+            count[arr[i]]++;
+        }
+
+        for (int i = 0; i < N; i++) {
+            while (!stack.isEmpty() && count[arr[i]] > count[arr[stack.peek()]])
+                result[stack.pop()] = arr[i];
+            stack.push(i);
+        }        
+
+        while (!stack.isEmpty())
+            result[stack.pop()] = -1;
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i : result)
+            sb.append(i).append(" ");
+
+        System.out.println(sb);
+
+    }
+}
+
+#10845
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        Queue<Integer> que = new LinkedList<Integer>();
+
+        int last = 0;
+        for (int i = 0 ; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            String str = st.nextToken();
+
+            switch(str) {
+                case "push" :
+                    last = Integer.parseInt(st.nextToken());
+                    que.offer(last);
+                    break;
+
+                case "pop" :
+                    if (que.isEmpty()) sb.append(-1).append('\n');
+                    else sb.append(que.poll()).append('\n');
+                    break;
+
+                case "size" :
+                    sb.append(que.size()).append('\n');
+                    break;
+
+                case "empty" : 
+                    if (que.isEmpty()) sb.append(1).append('\n');
+                    else sb.append(0).append('\n');
+                    break;
+
+                case "front" :
+                    if (que.isEmpty()) sb.append(-1).append('\n');
+                    else sb.append(que.peek()).append('\n');
+                    break;
+
+                case "back" : 
+                    if (que.isEmpty()) sb.append(-1).append('\n');
+                    else sb.append(last).append('\n');
+                    break;
+            }
+        }
+
+        System.out.println(sb);
+        
+    }
+}
+
+#1158
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.LinkedList;
+import java.util.Queue;
+
+/*
+ * 요세푸스 문제 
+ * 순환 문제일 경우 queue를 이용하여 뺴고 다시 넣는 과정을 반복하는 아이디어를 고려
+ */
+public class Main {
+
+    public static boolean[] prime;
+    public static void main(String[] args) throws IOException {
+
+        Queue<Integer> que = new LinkedList<>();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+
+        
+        for (int i = 1; i <= N; i++)
+            que.offer(i);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('<');
+
+        while (que.size() != 1) {
+            for (int i = 0; i < K - 1; i++) 
+                que.offer(que.poll());
+            
+            sb.append(que.poll()).append(", ");
+        }
+
+        sb.append(que.poll()).append('>');
+
+        System.out.println(sb);
+        
+    }
+}
+
+#10866
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    
+    static int[] deq = new int[10001];
+    static int first = 0;
+    static int last = 0;
+    static int size = 0;
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            String S = st.nextToken();
+            
+            switch(S) {
+                case "push_front" :
+                    push_front(Integer.parseInt(st.nextToken()));
+                    break;
+                case "push_back" :
+                    push_back(Integer.parseInt(st.nextToken()));
+                    break;
+                case "pop_front" :
+                    sb.append(pop_front()).append('\n');
+                    break;
+                case "pop_back" :
+                    sb.append(pop_back()).append('\n');
+                    break;
+                case "size" : 
+                    sb.append(size()).append('\n');
+                    break;
+                case "empty" :
+                    sb.append(empty()).append('\n');
+                    break;
+                case "front" :
+                    sb.append(front()).append('\n');
+                    break;
+                case "back" :
+                    sb.append(back()).append('\n');
+                    break;              
+            }
+        }
+
+        System.out.println(sb);
+
+    }
+
+    public static void push_front(int X) {
+        deq[first] = X;
+        first = ((first - 1) + 10001) % 10001;  // first가 앞으로 당겨지므로 -1, 순환을 위해서 +10001을 하고 %10001을 함
+        size++;
+    }
+
+    public static void push_back(int X) {
+        last = (last + 1) % 10001;  // last가 뒤로 밀려나므로 +1, 순환을 위해서 %10001을 함
+        deq[last] = X;
+        size++;
+    }
+
+    public static int pop_front() {
+        if (size == 0) return -1;
+        else {
+            first = (first + 1) % 10001;
+            int PF = deq[first];
+            size--;
+            return PF;
+        }
+    }
+
+    public static int pop_back() {
+        if (size == 0) return -1;
+        else {
+            int PB = deq[last];
+            last = ((last - 1) + 10001) % 10001;
+            size--;
+            return PB;
+        }
+    }
+
+    public static int size() {
+        return size;
+    }
+
+    public static int empty() {
+        if (size == 0) return 1;
+        else return 0;
+    }
+
+    public static int front() {
+        if (size == 0) return -1;
+        else {
+            int F = deq[(first + 1) % 10001];   // first 값이 덱의 앞을 가리키고 있지만, 이 값은 실제로 덱의 첫 번째 요소보다 한 칸 뒤에 위치하고 있음
+            return F;
+        }
+    }
+
+    public static int back() {
+        if (size == 0) return -1;
+        else {
+            int B = deq[last];
+            return B;
+        }
+    }
+
+}
+
+ 

@@ -1,0 +1,179 @@
+#2609
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+// GCD 알고리즘 - 재귀적 알고리즘 풀이
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int a = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
+
+        int d = gcd(a, b);
+
+        System.out.println(d);
+        System.out.println(a * b / d);
+               
+    }
+
+    public static int gcd(int a, int b) {
+
+        if (b == 0)
+            return a;
+
+        return gcd(b, a % b);
+        
+    }
+}
+
+#1929
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+// 에라토스테네스의 체 : 2부터 소수의 제곱과 그 이후의 배수들을 제외해 나가는 방식
+public class Main {
+
+    public static boolean[] prime;
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int M = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+
+        prime = new boolean[N + 1];
+        get_prime();
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = M; i <= N; i++)
+            if (!prime[i]) sb.append(i).append('\n');
+
+        System.out.println(sb);
+
+    }
+
+    public static void get_prime() {
+        
+        prime[0] = prime[1] = true;
+
+        for (int i = 2; i <= Math.sqrt(prime.length); i++) {
+            if (prime[i]) continue;
+            for (int j = i * i; j < prime.length; j += i)
+                prime[j] = true;
+        }
+    a
+    }
+}
+
+#6588 !!!!<시간초과>!!!!
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Main {
+    
+    public static boolean[] prime = new boolean[1000001];
+    
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                
+        prime_func();
+
+        while (true) {
+            int N = Integer.parseInt(br.readLine());       
+            if (N == 0) break;
+
+            boolean flag = true;
+            
+            for (int i = 2; i < N / 2; i++) {   // -> i는 N - i와 짝을 이루므로 N / 2까지 하면 됨
+                if (!prime[i] && !prime[N - i]) {
+                    System.out.printf("%d = %d + %d\n", N, i, N - i);
+                    flag = false;
+                    break;
+                } 
+            }
+
+            if (flag) System.out.println("Goldbach's conjecture is wrong.");
+            
+        }
+        
+    }
+
+    public static void prime_func() {
+        prime[0] = prime[1] = true;
+
+		for (int i = 2; i <= (int) Math.sqrt(1000000); i++) { 
+			for (int j = i * i; j < 1000001; j += i) 
+				prime[j] = true;
+		}
+
+    }
+}
+
+#1373
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Main {
+        
+    public static void main(String[] args) throws IOException {
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            String str = br.readLine();
+            int n = str.length();
+
+            if (n % 3 == 1) System.out.print(str.charAt(0));
+            else if (n % 3 == 2) System.out.print((str.charAt(0) - '0') * 2 + (str.charAt(1) - '0'));
+
+            for (int i = n % 3; i < n; i += 3) System.out.print((str.charAt(i)-'0')*4 + (str.charAt(i+1)-'0')*2 + (str.charAt(i+2)-'0'));
+            
+                     
+    }
+
+}
+
+#2089 -> -2진수 풀이 다시보기!
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Main {
+    
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+
+        if (N == 0) sb.append(0);
+        else {
+            while (N != 1) {
+                sb.append(Math.abs(N % -2));
+                N = (int)(Math.ceil((double)N / -2));
+            }
+            sb.append(N);
+        }
+            
+        System.out.println(sb.reverse());
+        
+    }
+    
+
+
+}
+

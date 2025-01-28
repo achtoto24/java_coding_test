@@ -1,0 +1,556 @@
+#2750-1
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner((System.in));
+
+        int N = sc.nextInt();
+        int[] arr = new int[N];
+
+        for (int i = 0; i < N; i++) 
+            arr[i] = sc.nextInt();
+
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if (arr[i] > arr[j]) {
+                    int temp = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = temp;
+                }
+            }
+        }
+
+        for (int i : arr)
+            System.out.println(i);
+
+    }
+
+}
+
+#2750-2
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        int[] arr = new int[N];
+
+        for (int i = 0; i < N; i++) 
+            arr[i] = sc.nextInt();
+
+        Arrays.sort(arr);
+
+        for (int i : arr) 
+            System.out.println(i);
+
+    }
+}
+
+#2750-3
+
+// 카운팅 정렬
+public class Main {
+    public static void main(String[] arags) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+
+        boolean[] arr = new boolean[2001];
+
+        for (int i = 0; i < N; i++)
+            arr[sc.nextInt() + 1000] = true;
+
+        for (int i = 0; i < 2001; i++) {
+            if (arr[i])
+                System.out.println(i - 1000);
+        }
+    }
+}
+
+#25305
+
+import java.util.Scanner;
+// import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner((System.in));
+        int N = sc.nextInt();
+        int[] arr = new int[N];
+        int k = sc.nextInt();
+
+        for (int i = 0; i < N; i++) 
+            arr[i] = sc.nextInt();
+        
+        for (int i = 0; i < N-1; i++) {
+            for (int j = i+1; j < N; j++) {
+                if (arr[i] > arr[j]) {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+      
+        System.out.println(arr[N - k]);
+
+
+    }
+
+}
+
+#10989-1
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+
+        int N = Integer.parseInt(bf.readLine());
+        int[] arr = new int[N];
+
+        for (int i = 0; i < N; i++) 
+            arr[i] = Integer.parseInt(bf.readLine());
+        
+        Arrays.sort(arr);
+
+        for (int i : arr)
+            sb.append(i).append('\n');
+
+        System.out.println(sb);
+        
+    }
+
+}
+
+#10989-2
+
+// 카운팅 정렬
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+
+        // 0 ~ 10000까지 범위
+        int[] arr = new int[10001];
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(bf.readLine());
+
+        for (int i = 0; i < N; i++) 
+            arr[Integer.parseInt(bf.readLine())]++;
+        
+        bf.close();
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 1; i < 10001; i++) {
+            while (arr[i] > 0) {
+                sb.append(i).append('\n');
+                arr[i]--;
+            }
+        }
+
+        System.out.println(sb);
+        
+    }
+
+}
+
+#1427
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.Arrays;
+
+
+public class Main {
+
+    public static void main (String[] args) throws IOException{
+        
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(bf.readLine());
+        String str = String.valueOf(N);
+        int[] arr = new int[str.length()];
+
+        for (int i = 0; i < str.length(); i++) {
+            arr[i] = str.charAt(i) - '0';
+        }
+        
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = arr.length - 1; i >= 0; i--)
+            sb.append(arr[i]);
+
+        System.out.println(sb);
+
+    }
+
+}
+
+#10814
+
+import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Main {
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        String[][] arr = new String[N][2];
+
+        sc.nextLine(); // 개행 버림
+
+        for (int i = 0; i < N; i++) {
+            arr[i][0] = sc.next();
+            arr[i][1] = sc.next();
+        }
+
+        Arrays.sort(arr, new Comparator<String[]>() {
+            public int compare(String[] s1, String[] s2) {
+
+                int num1 = Integer.parseInt(s1[0]);
+                int num2 = Integer.parseInt(s2[0]);
+
+                if (num1 != num2) 
+                    return Integer.compare(num1, num2);
+                else
+                    return 0;
+
+            }
+        });
+
+        for (int i = 0; i < N; i++) 
+            System.out.println(arr[i][0] + " " + arr[i][1]);
+        
+    }
+}
+
+#1764
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
+
+// HashMap 클래스를 쓰는 이유 : 중복이 허용되지 않는 하나의 집합을 만들어 비교하기 위해서
+public class Main {
+    public static void main(String[] args) throws IOException{
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] input = br.readLine().split(" ");
+        int N = Integer.parseInt(input[0]);
+        int M = Integer.parseInt(input[1]);
+        
+        HashSet<String> set = new HashSet<>();
+        for (int i = 0; i < N; i++) 
+            set.add(br.readLine());
+        
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < M; i++) {
+            String str = br.readLine();     // br.readLine()은 String을 의미
+            if (set.contains(str))
+                result.add(str);
+        }
+
+        Collections.sort(result);
+
+        System.out.println(result.size());
+        for (String s : result)
+            System.out.println(s);
+
+    }
+}
+
+#10815
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuffer bf = new StringBuffer();
+
+        int N = Integer.parseInt(br.readLine());
+        String[] input1 = br.readLine().split(" "); 
+        
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < N; i++)
+            set.add(Integer.parseInt(input1[i]));
+  
+        int M = Integer.parseInt(br.readLine());
+
+        String[] input2 = br.readLine().split(" ");
+        for (int i = 0; i < M; i++) {
+            int temp = Integer.parseInt(input2[i]);
+            if (set.contains(temp))
+                bf.append(1).append(" ");
+            else
+                bf.append(0).append(" ");
+        }
+        
+        System.out.println(bf);
+
+    }
+}
+
+#2217
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N];
+        for (int i = 0; i < N; i++) 
+            arr[i] = Integer.parseInt(br.readLine());
+        
+        Arrays.sort(arr);
+
+        int[] arr_desc = new int[N];
+        for (int i = N -1; i >= 0; i--)
+            arr_desc[N - 1 - i] = arr[i];
+
+        int[] weight = new int[N];
+        int max = weight[0] = arr_desc[0];
+        for (int i = 1; i < N; i++) {
+            weight[i] = arr_desc[i] * (i + 1);
+            max = Math.max(max, weight[i]);
+        }
+
+        System.out.println(max);
+
+    }
+}
+
+#2752
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int[] arr = new int[3];
+        String[] input = br.readLine().split(" ");
+        for (int i = 0; i < 3; i++) 
+            arr[i] = Integer.parseInt(input[i]);
+        
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i : arr)
+            sb.append(i).append(" ");
+
+        System.out.println(sb);
+    }
+}
+
+#1026
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int[] arr1 = new int[N];
+        int[] arr2 = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer stk = new StringTokenizer(br.readLine());
+
+        for (int i = 0; i < N; i++) {
+            arr1[i] = Integer.parseInt(st.nextToken());
+            arr2[i] = Integer.parseInt(stk.nextToken());
+        }
+
+        Arrays.sort(arr1);
+        for (int i = 0; i < N / 2; i++) {
+            int temp = arr1[i];
+            arr1[i] = arr1[N - 1 - i];
+            arr1[N - 1 - i] = temp;
+        }
+
+        Arrays.sort(arr2);
+
+        int sum = 0;
+        for (int i = 0; i < N; i++) 
+            sum += arr1[i] * arr2[i];
+        
+        System.out.println(sum);
+        
+    }
+}
+
+#10816 - 시간초과
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        ArrayList<Integer> list = new ArrayList<>(N);
+        for (int i = 0; i < N; i++)
+            list.add(Integer.parseInt(st.nextToken()));
+        
+        Collections.sort(list);
+
+        int M = Integer.parseInt(br.readLine());
+        StringTokenizer stk = new StringTokenizer(br.readLine());
+        int[] cnt = new int[M];
+        for (int i = 0; i < M; i++) {
+            int num = Integer.parseInt(stk.nextToken());
+            int idx = list.indexOf(num);
+            // System.out.println(idx);
+            if (idx >= 0) {
+                int count = 0;
+                while (list.get(idx) == num) {
+                    count++;
+                    if (idx == N - 1)
+                        break;
+                    idx++;
+                }
+                cnt[i] = count;
+            }
+            else 
+                cnt[i] = 0;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i : cnt)
+            sb.append(i).append(" ");
+
+        System.out.println(sb);
+
+    }
+}
+
+#10816 - 정렬로 푼 문제가 아님
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        HashMap<Integer, Integer> map = new HashMap<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        for (int i = 0; i < N; i++) {
+            int num = Integer.parseInt(st.nextToken());
+            if(map.get(num) == null)
+                map.put(num, 1);
+            else 
+                map.put(num, map.get(num) + 1);
+        }
+
+        int M = Integer.parseInt(br.readLine());
+        StringTokenizer stk = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < M; i++) {
+            int num = Integer.parseInt(stk.nextToken());
+            if (map.get(num) == null) 
+                sb.append(0).append(" ");
+            else
+                sb.append(map.get(num)).append(" ");
+        }
+
+        System.out.println(sb);
+
+    }
+}
+
+#11399
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int[] arr = new int[N];
+        for (int i = 0; i < N; i++)
+            arr[i] = Integer.parseInt(st.nextToken());
+
+        Arrays.sort(arr);
+
+        int sum1 = 0;
+        for (int i = 0; i < N; i++) {
+            int sum2 = 0;
+            for (int j = 0; j <= i; j++) 
+                sum2 += arr[j];
+            sum1 += sum2;
+        }
+
+        System.out.println(sum1);
+
+    }
+}
+

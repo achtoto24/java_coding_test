@@ -1,0 +1,281 @@
+#10828
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+/*
+ * 스택의 기본 설명
+ */
+public class Main {
+
+    public static int[] stack;
+    public static int size = 0;
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+
+        int N = Integer.parseInt(br.readLine());
+        stack = new int[N];
+
+        while (N > 0) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+            switch (st.nextToken()) {
+                case "push":
+                    push(Integer.parseInt(st.nextToken()));
+                    break;
+                
+                case "pop":
+                    sb.append(pop()).append('\n');
+                    break;
+
+                case "size":
+                    sb.append(size()).append('\n');
+                    break;
+
+                case "empty":
+                    sb.append(empty()).append('\n');
+                    break;
+
+                case "top":
+                    sb.append(top()).append('\n');
+                    break;
+            }
+            N--;
+        }
+        System.out.println(sb);
+
+    }
+
+    public static void push(int item) {
+        
+        stack[size] = item;
+        size++;
+
+    }
+
+    public static int pop() {
+        
+        if (size == 0)
+            return -1;
+        else {
+            int res = stack[size - 1];
+            stack[size - 1] = 0;
+            size--;
+            return res;
+        }
+
+    }
+
+    public static int size() {
+        
+        return size;
+
+    }
+
+    public static int empty() {
+        
+        if (size == 0)
+            return 1;
+        else
+            return 0;
+            
+    }
+
+    public static int top() {
+        
+        if (size == 0)
+            return -1;
+        else
+            return stack[size - 1];
+
+    }
+
+}
+
+#17413
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class Main {
+	
+	public static void main(String[] args) throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String str = br.readLine();
+		StringBuilder sb = new StringBuilder();
+
+		Stack<Character> stack = new Stack<>();
+
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == '<') {
+				if (!stack.isEmpty()) {
+					while (!stack.isEmpty())
+						sb.append(stack.pop());
+				}
+				sb.append(str.charAt(i));
+				int j = i + 1;
+				while (str.charAt(j) != '>') {
+					sb.append(str.charAt(j));
+					j++;
+				}
+				i = j;
+				sb.append(str.charAt(i));
+				continue;
+			}else if (str.charAt(i) == ' ') {
+				while (!stack.isEmpty()) 
+					sb.append(stack.pop());
+				sb.append(" ");
+			}else {
+				stack.push(str.charAt(i));		
+			}
+		}
+
+		if (!stack.isEmpty()) {
+			while (!stack.isEmpty())
+				sb.append(stack.pop());
+			sb.append(" ");
+		}
+
+		System.out.println(sb);
+
+	}
+
+}
+
+#1935
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+import java.util.HashMap;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int num = Integer.parseInt(br.readLine());
+        String str = br.readLine();
+        int[] arr = new int[num];
+        for (int i = 0; i < num; i++)
+            arr[i] = Integer.parseInt(br.readLine());
+        
+        Stack<Double> stack = new Stack<>();
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        int cnt = 0;
+        for (int i = 0; i < str.length(); i++) {
+            char currentChar = str.charAt(i);
+
+            if (currentChar == '+') {
+                double n1 = stack.pop();
+                double n2 = stack.pop();
+                double rst = n2 + n1;
+                stack.push(rst);
+            } else if (currentChar == '-') {
+                double n1 = stack.pop();
+                double n2 = stack.pop();
+                double rst = n2 - n1;
+                stack.push(rst);
+            } else if (currentChar == '*') {
+                double n1 = stack.pop();
+                double n2 = stack.pop();
+                double rst = n2 * n1;
+                stack.push(rst);
+            } else if (currentChar == '/') {
+                double n1 = stack.pop();
+                double n2 = stack.pop();
+                double rst = n2 / n1;
+                stack.push(rst);
+            } else {
+                if (!map.containsKey(currentChar)) 
+                    map.put(currentChar, arr[cnt++]); 
+                stack.push((double)map.get(currentChar));
+            }
+        }
+
+        System.out.printf("%.2f",stack.pop());
+
+    }
+}
+
+#10799
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = br.readLine();
+
+        Stack<Character> stack = new Stack<>();
+
+        int cnt = 0;
+        int stack_len = 0;
+        for (int i = 0; i < str.length() - 1; i++) {
+            char ch = str.charAt(i);
+
+            if (ch == '(') {
+                if (str.charAt(i+1) == ')') {
+                    cnt += stack_len;
+                    i++;
+                }
+                else {
+                    stack.push(ch);
+                    stack_len++;
+                    cnt++;    
+                }
+            } else {
+                stack.pop();
+                stack_len--;
+            }
+        }
+
+        System.out.println(cnt);
+
+    }
+}
+
+#11655
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String S = br.readLine();
+               
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < S.length(); i++) {
+            int ch = (int)S.charAt(i);
+            if (ch >= 65 && ch <= 90) {
+                sb.append((char)((ch -65 + 13) % 26 + 65));
+            }else if (ch >= 97 && ch <= 122){
+                sb.append((char)((ch - 97 + 13) % 26 + 97));
+            }else {
+                sb.append(S.charAt(i));
+            }
+        }
+
+        System.out.println(sb);
+
+    }
+}

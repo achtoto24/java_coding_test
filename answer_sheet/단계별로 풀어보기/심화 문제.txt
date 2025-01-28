@@ -1,0 +1,134 @@
+#2444 (런타임 에러)
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int N = stdln.nextInt();
+        int A = 2 * N - 1;
+        String empty  = "";
+        for (int k = 0; k < A; k++)
+            empty += " ";
+
+        for (int i = (2 * N - 1) / 2 - 1; i < A; i++) {
+            String temp = empty; 
+            for (int j = A - i - 1; j <= A - 8 + i - 1; j++) {
+                temp = temp.substring(0, j) + "*" + temp.substring(j+1);
+            }
+            System.out.println(temp);
+        }
+        
+        for (int i = A - 2; i >= (2 * N - 1) / 2 - 1; i--) {
+            String temp = empty;
+            for (int j = A - 8 + i - 1; j >= A - i - 1; j--) {
+                temp = temp.substring(0, j) + "*" + temp.substring(j+1);
+            }
+            System.out.println(temp);
+        }
+
+    }
+}
+
+#2444
+
+import java.util.Scanner;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = 0;
+
+        n = sc.nextInt();
+        for(int i = 1; i <= n; i++) {
+
+            for(int j = 1; j <= n - i; j++ ) {
+                System.out.print(" ");
+            }
+            for(int j = 1; j <= i*2 -1; j++) {
+                System.out.print("*");
+            }
+            System.out.println("");
+        }
+        for(int i = 1; i <= n - 1 ; i++) {
+            for(int j = 1; j <= i; j++) {
+                System.out.print(" ");
+            }
+            for(int j = 1; j <= ((n - i) * 2 - 1); j++) {
+                System.out.print("*");
+            }
+            System.out.println("");
+        }
+    }
+}
+
+#2941
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        String[] alp = {"c=", "c-", "d-", "lj", "nj", "s=", "z="};
+        String str = stdln.next();
+        
+        int num = str.length();
+        
+        for (int i = 0; i < alp.length; i++) {
+            int j = 0;
+            while (str.indexOf(alp[i], j) > -1) {
+                j = str.indexOf(alp[i], j) + 2;
+                num -= 1;
+            }    
+        }
+
+        int j = 0;
+        while (str.indexOf("dz=", j) > -1) {
+            j = str.indexOf("dz=", j) + 3;
+            num -= 1;   //원래는 두 글자를 없애야 하지만 "z="와 겹치므로 한 글자만 없애줌
+        }
+
+        System.out.println(num);
+    }
+}
+
+#1316
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int num = stdln.nextInt();
+        int cnt = 0;
+
+        while (num > 0) {
+            String str = stdln.next();
+            boolean flag1 = true;
+            outer : 
+            for (int i = 0; i < str.length(); i++) {
+                if (i != str.length() - 1) {
+                    boolean flag2 = true;
+                    for (int j = i + 1; j < str.length(); j++) {
+                        if (str.charAt(i) == str.charAt(j)) {
+                            if (flag2 == false) {
+                                flag1 = false;
+                                break outer;
+                            } 
+                            continue;
+                        }
+                        else 
+                            flag2 = false;
+                    }
+                }
+            }
+            if (flag1)
+                cnt++;
+            num--;
+        }
+
+        System.out.println(cnt);
+
+    }
+}
+

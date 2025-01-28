@@ -1,0 +1,82 @@
+#8393
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int num = stdln.nextInt();
+        
+        int sum = 0;
+        for (int i = 0; i <= num; i++) 
+            sum += i;
+
+        System.out.println(sum);
+    }
+}
+
+
+#25304
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int sum = stdln.nextInt();
+        int product_type = stdln.nextInt();
+
+        int temp_sum = 0;
+        for (int i = 0; i < product_type; i++) {
+            int price = stdln.nextInt();
+            int num = stdln.nextInt();
+            temp_sum += price * num;
+        }
+
+        if (sum == temp_sum) 
+            System.out.println("Yes");
+        else
+            System.out.println("No");
+        
+    }
+}
+
+#25314
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+        int byte_num = stdln.nextInt();
+
+        int num = byte_num / 4;
+        String result = "int";
+        for (int i = 0; i < num; i++) 
+            result = "long " + result;
+        
+        System.out.println(result);
+        
+    }
+}
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner stdln = new Scanner(System.in);
+
+        int A, B;
+        do {
+            A = stdln.nextInt();
+            B = stdln.nextInt();
+            if (A + B != 0)
+                System.out.println(A + B);
+        } while (A + B != 0);
+    }
+}
+
+
+
+
+
+
+
+
