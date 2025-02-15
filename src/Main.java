@@ -3,37 +3,36 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-// 조합 공식(파스칼 공식)을 이용하기
 public class Main {
 
-     public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int[] arr, dp;
+        
+        int N = Integer.parseInt(br.readLine());
+        arr = new int[N];
+        dp = new int[N];
 
-        int[][] dp = new int[30][30];
-
-        for (int i = 0; i < 30; i++) {
-            dp[i][i] = 1;
-            dp[i][0] = 1;
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());  
         }
         
-        for (int i = 2; i < 30; i++) {
-            for (int j = 1; j < 30; j++) {
-                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+        for (int i = 0; i < N; i++) {
+            dp[i] = 1;
+
+            for (int j = 0; j < i; j++) {
+                if (arr[j] < arr[i] && dp[i] < dp[j] + 1) dp[i] = dp[j] + 1;
             }
         }
 
-        int t = Integer.parseInt(br.readLine());
-
-        for (int i = 0; i < t; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int west = Integer.parseInt(st.nextToken());
-            int east = Integer.parseInt(st.nextToken());
-
-            System.out.println(dp[east][west]);
-            
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < N; i++) {
+            if (dp[i] > max) max = dp[i];
         }
 
+        System.out.println(max);
 
-     }
+    }
 }

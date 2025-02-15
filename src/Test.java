@@ -1,5 +1,3 @@
-package src;
-
 import java.util.Scanner;
 
 /* 다시 내 풀이로 작성해보기 */
