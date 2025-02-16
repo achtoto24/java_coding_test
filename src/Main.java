@@ -8,28 +8,30 @@ public class Main {
     public static void main(String[] args) throws IOException {
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int[] arr, dp;
+        StringTokenizer st;
         
-        int N = Integer.parseInt(br.readLine());
-        arr = new int[N];
-        dp = new int[N];
+        int n = Integer.parseInt(br.readLine());
+        int[][] arr = new int[n + 1][n + 1];
+        int[][] dp = new int[n + 1][n + 1];
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());  
+        for (int i = 1; i <= n; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 1; j <= i; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
         }
-        
-        for (int i = 0; i < N; i++) {
-            dp[i] = 1;
 
-            for (int j = 0; j < i; j++) {
-                if (arr[j] < arr[i] && dp[i] < dp[j] + 1) dp[i] = dp[j] + 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                dp[i][j] = Math.max(dp[i-1][j-1], dp[i-1][j]) + arr[i][j];
             }
         }
 
         int max = Integer.MIN_VALUE;
-        for (int i = 0; i < N; i++) {
-            if (dp[i] > max) max = dp[i];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (max < dp[i][j]) max = dp[i][j];
+            }
         }
 
         System.out.println(max);
