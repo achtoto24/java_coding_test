@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-// 조합 공식(파스칼 공식)을 이용하기
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -11,30 +10,23 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         
-        int[][] dp = new int[30][30];
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N + 1];
+        int[] dp = new int[N + 1];
 
-        for (int i = 1; i < 30; i++) {
-            dp[i][i] = 1;
-            dp[i][0] = 1;
+        st = new StringTokenizer(br.readLine());
+        for (int i = 1; i <= N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        for (int i = 2; i < 30; i++) {
+        for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= i; j++) {
-                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+                dp[i] = Math.max(dp[i], dp[i - j] + arr[j]);
             }
         }
-
-        int T = Integer.parseInt(br.readLine());
         
-        for (int i = 0; i < T; i++) {
-            st = new StringTokenizer(br.readLine());
-            int N = Integer.parseInt(st.nextToken());
-            int M = Integer.parseInt(st.nextToken());
+        System.out.println(dp[N]);
 
-            System.out.println(dp[M][N]);
-
-        }
-        
     }
 
 }
