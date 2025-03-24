@@ -10,32 +10,37 @@ public class Main {
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
+        int K = Integer.parseInt(st.nextToken());
         int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
 
-        int[] arr = new int[N];
+        int[] arr = new int[K];
 
-        int min = 0;
-        int max = 0;
-
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-
-            if (max < arr[i]) max = arr[i];
+        for (int i = 0; i < K; i++) {
+            arr[i] = Integer.parseInt(br.readLine());
         }
 
+        long max = arr[0];
+        long min = 0;
+        for (int i = 1; i < K; i++) {
+            max = max < arr[i] ? arr[i] : max;
+        }
+
+        max++;
+        
         while (min < max) {
-            int mid = (min + max) / 2;
-            long sum = 0;
-            for (int arr_len : arr) {
-                if (arr_len - mid > 0) sum += (arr_len - mid);
+            long mid = (min + max) / 2;
+
+            long num = 0;
+            for (int i : arr) {
+                num += i / mid;
             }
 
-            if (sum < M) max = mid;
-            else min = mid + 1;
+            if (num < N) max = mid; // Lower Bound 형식
+            else min = mid + 1;     // Upper Bound 형식 : 같은 num값과 연계된 mid들 중 최대값을 구하므로
+                                    // 나열된 mid들 중 가장 오른쪽 값을 구하기 위해 num값이 달라지는 시점의
+                                    // mid를 구하는 mid+1(num값이 달라졌을 때 가장 작은 mid)을 하면 됨
         }
-
+        
         System.out.println(min - 1);
         
     }
