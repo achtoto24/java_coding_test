@@ -9,40 +9,39 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
+        int N = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine());
-        int K = Integer.parseInt(st.nextToken());
-        int N = Integer.parseInt(st.nextToken());
-
-        int[] arr = new int[K];
-
-        for (int i = 0; i < K; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
-        }
-
-        long max = arr[0];
-        long min = 0;
-        for (int i = 1; i < K; i++) {
-            max = max < arr[i] ? arr[i] : max;
-        }
-
-        max++;
+        int[] arr = new int[N + 1];
         
-        while (min < max) {
-            long mid = (min + max) / 2;
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken(" "));
+        }
 
-            long num = 0;
-            for (int i : arr) {
-                num += i / mid;
+        int M = Integer.parseInt(br.readLine());
+
+        int min = 0;
+        int max = arr[0];
+        for (int i = 1; i < N; i++) {
+            max = (arr[i] > max) ? arr[i] : max;
+        }
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+            
+            int sum = 0;
+            for (int i = 0; i < N; i++) {
+                if (arr[i] >= mid) sum += mid;
+                else sum += arr[i];
             }
-
-            // Upper Bound 형식 : 같은 num값과 연계된 mid들 중 최대값을 구하므로
-            // 나열된 mid들 중 가장 오른쪽 값을 구하기 위해 num값이 달라지는 시점의
-            // mid를 구하는 mid+1(num값이 달라졌을 때 가장 작은 mid)을 하면 됨
-            if (num < N) max = mid; 
-            else min = mid + 1;                       
+            
+            if (sum > M) max = mid - 1;
+            else min = mid + 1;
         }
-        
-        System.out.println(min - 1);
-        
+
+        System.out.println(max);
     }
 }
+
+
+
+// 해냈다!!!!!!!!!!!!!!!!!!!!!!!
