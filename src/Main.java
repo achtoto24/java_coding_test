@@ -10,42 +10,33 @@ public class Main {
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int[] arr = new int[N];
-        
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
+        long X = Long.parseLong(st.nextToken());
+        long Y = Long.parseLong(st.nextToken());
+       
+        long Z = Y * 100 / X ;
 
-        long min = 0;
-        long max = 0;
-        for (int i = 0; i < N; i++) {
-            min = Math.max(min, arr[i]);    // min이 될 수 있는 가장 작은 값은 배열 원소 중 가장 큰 값 
-            max += arr[i];
+        if (Z >= 99) {
+            System.out.println(-1);
+            return;
         }
-        
+        int min = 0;
+        int max = 1000000000;
+        int result = 0;
+
         while (min <= max) {
-            long mid = (min + max) / 2;
+            int mid = (min + max) / 2;
 
-            long sum = 0;
-            long num = 1;
-            for (int i = 0; i < N; i++) {
-                sum += arr[i];
-                if (sum <= mid) continue;      
-                else {
-                    sum = 0;
-                    sum += arr[i];
-                    num++;
-                }
+            long temp = (Y + mid) * 100 / (X + mid);
+
+            if (Z >= temp) {
+                min = mid + 1;
+                result = mid + 1;
             }
+            else max = mid - 1;
 
-            if (num <= M) max = mid - 1;
-            else min = mid + 1;
         }
 
-        System.out.println(min);
+        System.out.println(result);
         
     }
 }
