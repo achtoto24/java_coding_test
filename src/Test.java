@@ -1,73 +1,56 @@
-import java.util.Scanner;
-
-/* 다시 내 풀이로 작성해보기 */
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Test {
-    static int n;
-    static char[][] graph;
-    static boolean[][] visited;
-    static int count = 0;
-    static int[][] pos = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
+        StringTokenizer st;
 
-    static void dfs(int x, int y) {
-        visited[x][y] = true;
-        char temp = graph[x][y];
-        for (int i = 0; i < pos.length; i++) {
-            int nx = x + pos[i][0];
-            int ny = y + pos[i][1];
+        for (int i = 0; i < T; i++) {
+            st = new StringTokenizer(br.readLine());
+            int N = Integer.parseInt(st.nextToken());
+            int M = Integer.parseInt(st.nextToken());
 
-            if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visited[nx][ny] && graph[nx][ny] == temp) {
-                dfs(nx, ny);
+            int[] A = new int[N];
+            int[] B = new int[M];
+
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                A[j] = Integer.parseInt(st.nextToken());
             }
-        }
 
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        n = sc.nextInt();
-        graph = new char[n][n];
-        visited = new boolean[n][n];
-
-        for (int i = 0; i < n; i++) {
-            String str = sc.next();
-            for (int j = 0; j < n; j++) {
-                graph[i][j] = str.charAt(j);
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < M; j++) {
+                B[j] = Integer.parseInt(st.nextToken());
             }
-        }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (!visited[i][j]) {
-                    dfs(i, j);
-                    count++;
+            Arrays.sort(B);
+            int result = 0;
+
+            for (int a : A) {
+                int left = 0;
+                int right = M - 1;
+
+                // lower_bound: B에서 a보다 작은 수의 개수
+                while (left <= right) {
+                    int mid = (left + right) / 2;
+                    if (B[mid] < a) {
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
                 }
+
+                result += left;
             }
+
+            System.out.println(result);
         }
-        System.out.print(count + " ");
-        count = 0;
-        visited = new boolean[n][n];
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (graph[i][j] == 'G') {
-                    graph[i][j] = 'R';
-                }
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (!visited[i][j]) {
-                    dfs(i, j);
-                    count++;
-                }
-            }
-        }
-
-        System.out.println(count);
-
-
     }
 }
