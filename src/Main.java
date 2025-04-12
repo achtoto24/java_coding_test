@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -16,19 +15,14 @@ public class Main {
 
 		while (left <= right) {
 			long mid = (left + right) / 2;
-			System.out.println(mid);
 
-			result = mid;
-			long temp = mid * mid;
-			System.out.println("temp :" + temp);
-
-			if (temp < N) right = mid - 1; 
-			else left = mid + 1;
+			if (Math.pow(mid, 2) >= N) {
+				result = mid;
+				right = mid - 1; 
+			} else left = mid + 1;
 		}
 
 		System.out.println(result);
-
-
 		
 	}
 }

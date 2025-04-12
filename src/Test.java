@@ -1,56 +1,29 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
 
-public class Test {
-    
+public class Test{
     public static void main(String[] args) throws IOException {
-        
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine());
-        StringTokenizer st;
 
-        for (int i = 0; i < T; i++) {
-            st = new StringTokenizer(br.readLine());
-            int N = Integer.parseInt(st.nextToken());
-            int M = Integer.parseInt(st.nextToken());
+        long n = Long.parseLong(br.readLine());
+        System.out.println(bSearch(n));
+    }
 
-            int[] A = new int[N];
-            int[] B = new int[M];
+    static long bSearch(long n){
+        long start = 0;
+        long end = n;
+        long result=0;
 
-            st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < N; j++) {
-                A[j] = Integer.parseInt(st.nextToken());
+        while(start<=end) {
+            long mid = (start + end) / 2;
+            if(n<=(long) Math.pow(mid, 2)){
+                result=mid;
+                end=mid-1;
+            }else{
+                start=mid+1;
             }
-
-            st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < M; j++) {
-                B[j] = Integer.parseInt(st.nextToken());
-            }
-
-            Arrays.sort(B);
-            int result = 0;
-
-            for (int a : A) {
-                int left = 0;
-                int right = M - 1;
-
-                // lower_bound: B에서 a보다 작은 수의 개수
-                while (left <= right) {
-                    int mid = (left + right) / 2;
-                    if (B[mid] < a) {
-                        left = mid + 1;
-                    } else {
-                        right = mid - 1;
-                    }
-                }
-
-                result += left;
-            }
-
-            System.out.println(result);
         }
+        return result;
     }
 }
