@@ -1,50 +1,49 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 
-		int N = Integer.parseInt(br.readLine());
-		int M = Integer.parseInt(br.readLine());
-		
-		int[] arr = new int[M];
-		
 		st = new StringTokenizer(br.readLine());
-		for (int i = 0; i < M; i++) {
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		String[] str = new String[N];
+		int[] arr = new int[N];
+
+		for (int i = 0; i < N; i++) {
+			st = new StringTokenizer(br.readLine());
+			str[i] = st.nextToken();	
 			arr[i] = Integer.parseInt(st.nextToken());
 		}
-		
-		int bottom = 1;
-		int top = N;
-		int result = 0;
 
-		while (bottom <= top) {
-			int mid = (bottom + top) / 2;
-			boolean flag = true;
+		for (int i = 0; i < M; i++) {
+			int num = Integer.parseInt(br.readLine());
 
-			int point = 0;
-			for (int i = 0; i < M; i++) {
-				if (arr[i] - mid <= point) point = arr[i] + mid;
-				else flag = false;
+			int left = 0;
+			int right = N - 1;
+			int result = 0;
+
+			while (left <= right) {
+				int mid = (left + right) / 2;
+
+				if (arr[mid] < num) left = mid + 1;
+				else {
+					result = mid;
+					right = mid - 1;
+				}
 			}
 
-			if (N - point > 0) flag = false;
-			else flag = true;
-
-			if (flag) {					// 모두 비출 수 있음
-				result = mid;
-				top = mid - 1;
-			} else bottom = mid + 1;	// 모두 비출 수 없음
+			System.out.println(str[result]);
 		}
 		
-		System.out.println(result);
-
 	}
 	
 }
