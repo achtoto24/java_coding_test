@@ -2,48 +2,50 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 
 		st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
-		String[] str = new String[N];
-		int[] arr = new int[N];
-
-		for (int i = 0; i < N; i++) {
-			st = new StringTokenizer(br.readLine());
-			str[i] = st.nextToken();	
-			arr[i] = Integer.parseInt(st.nextToken());
-		}
+		int[] arr = new int[M];
 
 		for (int i = 0; i < M; i++) {
-			int num = Integer.parseInt(br.readLine());
+			arr[i] = Integer.parseInt(br.readLine());
+		}
 
-			int left = 0;
-			int right = N - 1;
-			int result = 0;
+		Arrays.sort(arr);
 
-			while (left <= right) {
-				int mid = (left + right) / 2;
+		int left = 1;
+		int right = arr[M - 1];
+		int result = Integer.MAX_VALUE;
+		while (left <= right) {
+			int mid = (left + right) / 2;
+			int cnt = 0;
 
-				if (arr[mid] < num) left = mid + 1;
-				else {
-					result = mid;
-					right = mid - 1;
-				}
+			for (int i = 0; i < M; i++) {
+				if (mid <= arr[i] && arr[i] % mid != 0) cnt += arr[i] / mid + 1; 
+				else if (mid <= arr[i] && arr[i]% mid == 0) cnt += arr[i] / mid;
+				else cnt++;
 			}
 
-			System.out.println(str[result]);
+			if (cnt > N) {
+				left = mid + 1;
+			}	
+			else {
+				result = mid;
+				right = mid - 1;
+			}
 		}
 		
+		System.out.println(result);
+
 	}
 	
 }
