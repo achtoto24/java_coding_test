@@ -9,37 +9,41 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
 
-		st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
-		int K = Integer.parseInt(st.nextToken());
-		int[] arr = new int[N];
-
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken()); 
+		int M = Integer.parseInt(st.nextToken()); 
+		String[] arr = new String[N];
+		
 		for (int i = 0; i < N; i++) {
-			arr[i] = Integer.parseInt(br.readLine());
+			arr[i] = br.readLine();
 		}
-
+ 
 		Arrays.sort(arr);
 
-		long bottom = 1;
-		long top = arr[N - 1];
+		int cnt = 0;
+		
+		for (int i = 0; i < M; i++) {
+			String str = br.readLine();
 
-		while (bottom <= top) {
-			long mid = (bottom + top) / 2;
-			int cnt = 0;
+			int left = 0;
+			int right = N - 1;
+			while (left <= right) {
+				int mid = (left + right) / 2;
 
-			for (int i = 0; i < N; i++) {
-				cnt += arr[i] / mid;
+				if (str.equals(arr[mid].substring(0, str.length())))  {
+					cnt++;
+					break;
+				}
+				else {
+					if (arr[mid].compareTo(str) >= 0) right = mid - 1;
+					else left = mid + 1;
+				} 
 			}
-
-			if (cnt >= K) {
-				bottom = mid + 1;
-			} else top = mid - 1;
 		}
 
-		System.out.println(top);
-
+		System.out.println(cnt);
+				
 	}
 
 }
