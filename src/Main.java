@@ -9,41 +9,54 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
 
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken()); 
-		int M = Integer.parseInt(st.nextToken()); 
-		String[] arr = new String[N];
-		
+		st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		int[] arr = new int[N];
+
+		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < N; i++) {
-			arr[i] = br.readLine();
+			arr[i] = Integer.parseInt(st.nextToken());
 		}
- 
+
 		Arrays.sort(arr);
 
-		int cnt = 0;
-		
 		for (int i = 0; i < M; i++) {
-			String str = br.readLine();
+			st = new StringTokenizer(br.readLine());
+			int num1 = Integer.parseInt(st.nextToken());
+			int num2 = Integer.parseInt(st.nextToken());
+			int num1_idx = 0;
+			int num2_idx = 0;
 
 			int left = 0;
 			int right = N - 1;
 			while (left <= right) {
 				int mid = (left + right) / 2;
 
-				if (str.equals(arr[mid].substring(0, str.length())))  {
-					cnt++;
-					break;
-				}
-				else {
-					if (arr[mid].compareTo(str) >= 0) right = mid - 1;
-					else left = mid + 1;
-				} 
+				if (arr[mid] < num1) left = mid + 1;
+				else right = mid - 1;
 			}
-		}
 
-		System.out.println(cnt);
+			num1_idx = left;
+			if (num1_idx == arr[left]) num1_idx = left;
+			// System.out.println("num1_idx : " + num1_idx);			
+			left = 0;
+			right = N - 1;
+			while (left <= right) {
+				int mid = (left + right) / 2;
 				
-	}
+				if (arr[mid] < num2) left = mid + 1;
+				else right = mid - 1;
+			}
+			
+			num2_idx = left;
+			// System.out.println("num1_idx : " + num2_idx);			
+			
+			System.out.println(num2_idx - num1_idx);
 
+		}
+		
+	}
 }
