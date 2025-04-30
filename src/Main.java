@@ -40,19 +40,17 @@ public class Main {
 			}
 
 			num1_idx = left;
-			if (num1_idx == arr[left]) num1_idx = left;
-			// System.out.println("num1_idx : " + num1_idx);			
+
 			left = 0;
 			right = N - 1;
 			while (left <= right) {
 				int mid = (left + right) / 2;
 				
-				if (arr[mid] < num2) left = mid + 1;
-				else right = mid - 1;
+				if (arr[mid] > num2) right = mid - 1;
+				else left = mid + 1;
 			}
 			
-			num2_idx = left;
-			// System.out.println("num1_idx : " + num2_idx);			
+			num2_idx = right + 1;
 			
 			System.out.println(num2_idx - num1_idx);
 
