@@ -928,6 +928,7 @@ public class Main {
 			while (left <= right) {
 				int mid = (left + right) / 2;
 
+                // lowerBound 방식
 				if (arr[mid] < num1) left = mid + 1;
 				else right = mid - 1;
 			}
@@ -939,6 +940,7 @@ public class Main {
 			while (left <= right) {
 				int mid = (left + right) / 2;
 				
+                // upperBound 방식
 				if (arr[mid] > num2) right = mid - 1;
 				else left = mid + 1;
 			}
@@ -950,4 +952,54 @@ public class Main {
 		}
 		
 	}
+}
+
+#6236
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		int[] arr = new int[N];
+
+		for (int i = 0; i < N; i++) {
+			arr[i] = Integer.parseInt(br.readLine());
+		}
+
+		// Arrays.sort(arr);	
+
+		int left = Arrays.stream(arr).max().getAsInt();
+		int right = Arrays.stream(arr).sum();
+		while (left <= right) {
+			int mid = (left + right) / 2;
+			int temp = mid;
+			int cnt = 1;
+
+			for (int i = 0; i < N; i++) {
+				if (arr[i] > temp) {
+					cnt++;
+					temp = mid;
+				} 
+				temp -= arr[i];
+			}
+			
+			if (cnt > M) left = mid + 1;
+			else right = mid - 1; 
+		}
+
+		System.out.println(left);
+		
+	}
+	
 }
