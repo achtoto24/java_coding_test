@@ -8,34 +8,27 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+		StringTokenizer st, st2;
 		
-		int N = Integer.parseInt(br.readLine());
-		long[] road = new long[N-1];
-		long[] price = new long[N];
-		
-		st = new StringTokenizer(br.readLine());
-		for (int i = 0; i <N-1; i++) {
-			road[i] = Long.parseLong(st.nextToken());
+		String S = br.readLine();
+		int num_0 = 0, num_1 = 0;
+		String temp;
+
+		st = new StringTokenizer(S,"0");
+		 while (st.hasMoreTokens()) {
+			temp = st.nextToken();
+			num_0++;
+		 }
+
+		 
+		st2 = new StringTokenizer(S,"1");
+		while (st2.hasMoreTokens()) {
+			temp = st2.nextToken();
+		   	num_1++;
 		}
 
-		st = new StringTokenizer(br.readLine());
-		for (int i = 0; i < N; i++) {
-			price[i] = Long.parseLong(st.nextToken());
-		}
-
-		long total = 0;
-		long min = price[0];
-		total += price[0] * road[0];
-		for (int i = 1; i < N-1; i++) {
-			if (min > price[i]) {
-				total += price[i] * road[i];
-				min = price[i];
-			} else total += min * road[i];
-		}
-
-		System.out.println(total);
-
+		if (num_0 >= num_1) System.out.println(num_1);
+		else System.out.println(num_0);;
 		
 	}
 }
