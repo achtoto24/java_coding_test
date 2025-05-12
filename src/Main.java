@@ -1,43 +1,35 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.Arrays;
 
-// 서류 성적 순위로 정렬한 후 면접 성적 비교하기
-// 비교군 중에서 한 명이라도 서류, 면접 성적 순위가 모두 높다면 탈락! 
 public class Main {
+	static StringBuilder sb = new StringBuilder();
 
 	public static void main(String[] args) throws IOException {
-		
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
 
-		int T = Integer.parseInt(br.readLine());
-
-		for (int i = 0; i < T; i++) {
-			int N = Integer.parseInt(br.readLine());
-			int[] arr = new int[N + 1];
-			int cnt = 1;
-
-			for (int j = 0; j < N; j++) {
-				st = new StringTokenizer(br.readLine());
-				int a = Integer.parseInt(st.nextToken());
-				int b = Integer.parseInt(st.nextToken());
-				arr[a] = b;
-			}
-
-			int compare = arr[1];
-			for (int j = 2; j < N+1; j++) {
-				if (compare > arr[j]) {
-						cnt++;
-						compare = arr[j];
-				}
-			}
-			
-			System.out.println(cnt);
-			
+		String str = br.readLine();
+		int[] arr = new int[str.length()];
+		for (int i = 0; i < str.length(); i++) {
+			arr[i] = str.charAt(i) - '0';
 		}
-		
-		
+
+		Arrays.sort(arr);
+
+		int sum = 0;
+		for (int i : arr) {
+			sum += i;
+		}
+
+		if (sum % 3 == 0 && arr[0] == 0) {
+			for (int i = arr.length - 1; i >= 0; i--) {
+				sb.append(arr[i]);
+			}
+			System.out.println(sb);
+		} else System.out.println(-1);
+					
 	}
+	
 }
