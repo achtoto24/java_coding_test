@@ -4,52 +4,53 @@ import java.io.InputStreamReader;
 
 public class Main {
 
+	static String A4 = "AAAA";
+	static String B2 = "BB";
+
 	public static void main(String[] args) throws IOException {
-
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-		int[] arr = new int[26];
-		
 		String str = br.readLine();
+
+		StringBuilder sb = new StringBuilder();
+		int count = 0;
+
 		for (int i = 0; i < str.length(); i++) {
-			int idx = str.charAt(i) - 'A';
-			arr[idx]++;
-		}
+			char c = str.charAt(i);
 
-		int isOdd = 0;
-		for (int i = 0; i < arr.length; i++) {
-			if (arr[i] % 2 != 0) isOdd++;
-		}
-		
-		String result = "";
-		if (isOdd > 1) {
-			result += "I'm Sorry Hansoo";
-		} else {
-			StringBuilder sb = new StringBuilder();
-
-			// start
-			for (int i = 0; i < arr.length; i++) {
-				for (int j = 0; j < arr[i]/2; j++) {
-					sb.append((char)(i + 65));
+			if (c == 'X') {
+				count++;
+			} else {
+				// 'X' 덩어리 처리
+				if (count % 2 != 0) {
+					System.out.println(-1);
+					return;
 				}
+				while (count >= 4) {
+					sb.append(A4);
+					count -= 4;
+				}
+				while (count >= 2) {
+					sb.append(B2);
+					count -= 2;
+				}
+				sb.append('.'); // '.' 그대로 추가
 			}
-			result += sb.toString();
-
-			// end 
-			String temp = sb.reverse().toString();
-
-			// middle
-			sb = new StringBuilder();
-			for (int i = 0; i < arr.length; i++) {
-				if (arr[i] % 2 != 0) sb.append((char)(i + 65));
-			}
-
-			result += sb.toString() + temp;
-			
 		}
-		
-		System.out.println(result);
 
-		
+		// 마지막에 X로 끝났을 때 처리
+		if (count % 2 != 0) {
+			System.out.println(-1);
+			return;
+		}
+		while (count >= 4) {
+			sb.append(A4);
+			count -= 4;
+		}
+		while (count >= 2) {
+			sb.append(B2);
+			count -= 2;
+		}
+
+		System.out.println(sb);
 	}
 }

@@ -1,29 +1,45 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-public class Test{
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+public class Test {
 
-        long n = Long.parseLong(br.readLine());
-        System.out.println(bSearch(n));
-    }
+	static String A4 = "AAAA";
+	static String B2 = "BB";
 
-    static long bSearch(long n){
-        long start = 0;
-        long end = n;
-        long result=0;
+	public static void main(String[] args) throws IOException {
 
-        while(start<=end) {
-            long mid = (start + end) / 2;
-            if(n<=(long) Math.pow(mid, 2)){
-                result=mid;
-                end=mid-1;
-            }else{
-                start=mid+1;
-            }
-        }
-        return result;
-    }
-}
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		String str = br.readLine();
+
+		StringTokenizer st = new StringTokenizer(str, ".");
+		StringTokenizer st2 = new StringTokenizer(str, "X");
+
+		StringBuilder sb = new StringBuilder();
+		while (st.hasMoreTokens()) {
+			int len = st.nextToken().length();
+			while (len > 0) {
+				if (len - 4 >= 0) {
+					sb.append(A4);
+					len -= 4;
+					continue;
+				} else if (len - 2 >= 0) {
+					sb.append(B2);
+					len -= 2;
+					continue;
+				} else{
+					System.out.println(-1);
+					return;
+				}
+			}
+			if (st2.hasMoreTokens()) sb.append(st2.nextToken());
+			
+		}
+		
+		System.out.println(sb);
+		
+	}
+	 
+} 
