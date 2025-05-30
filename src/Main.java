@@ -1,56 +1,41 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
-	static String A4 = "AAAA";
-	static String B2 = "BB";
-
 	public static void main(String[] args) throws IOException {
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String str = br.readLine();
 
-		StringBuilder sb = new StringBuilder();
-		int count = 0;
+		int N = Integer.parseInt(br.readLine());
+		int[] arr = new int[N + 1];
+		int[] rst = new int[N + 1];
 
-		for (int i = 0; i < str.length(); i++) {
-			char c = str.charAt(i);
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for (int i = 1; i <= N; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
 
-			if (c == 'X') {
-				count++;
-			} else {
-				// 'X' 덩어리 처리
-				if (count % 2 != 0) {
-					System.out.println(-1);
-					return;
+		for (int i = 1; i<= N; i++) {
+			int cnt = 0;
+			int idx = 1;
+			while (cnt <= arr[i]) {
+				if (rst[idx] == 0) cnt++; 
+				else {
+					idx++;
+					continue;
 				}
-				while (count >= 4) {
-					sb.append(A4);
-					count -= 4;
-				}
-				while (count >= 2) {
-					sb.append(B2);
-					count -= 2;
-				}
-				sb.append('.'); // '.' 그대로 추가
+				idx++;
 			}
+			rst[--idx] = i;
 		}
-
-		// 마지막에 X로 끝났을 때 처리
-		if (count % 2 != 0) {
-			System.out.println(-1);
-			return;
+		
+		for (int i = 1; i <= N; i++) {
+			System.out.print(rst[i] + " ");
 		}
-		while (count >= 4) {
-			sb.append(A4);
-			count -= 4;
-		}
-		while (count >= 2) {
-			sb.append(B2);
-			count -= 2;
-		}
-
-		System.out.println(sb);
+		
 	}
+
 }
