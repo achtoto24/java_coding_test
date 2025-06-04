@@ -20,13 +20,15 @@ public class Main {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
-            int cnt = 0;
+            int rank = 1;
             for (int  j = 0; j < N; j++) {
-                if (arr[i][0] > arr[j][0] || arr[i][1] > arr[j][1]) cnt++; 
+                if (arr[i][0] < arr[j][0] && arr[i][1] < arr[j][1]) rank++; 
             }
-            sb.append(N - cnt).append(" ");
+            sb.append(rank).append(" ");
         }
         
         System.out.println(sb);
+
     }
+    
 }
