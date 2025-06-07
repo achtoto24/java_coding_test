@@ -5,29 +5,64 @@ import java.util.StringTokenizer;
 
 public class Main {
 
+    static int[][] map;
+    static boolean[][] check;
+    static int[] move_x = {-1, 1, 0, 0};
+    static int[] move_y = {0, 0, -1, 1};
+    
+    static int n, m, cnt;
+    
+    
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
-        int[][] arr = new int[N][2];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-        for (int i = 0; i < N; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            arr[i][0] = Integer.parseInt(st.nextToken());
-            arr[i][1] = Integer.parseInt(st.nextToken());
-        }
+        map = new int[n][m];
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < N; i++) {
-            int rank = 1;
-            for (int  j = 0; j < N; j++) {
-                if (arr[i][0] < arr[j][0] && arr[i][1] < arr[j][1]) rank++; 
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < m; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
-            sb.append(rank).append(" ");
         }
+
+        check = new boolean[n][m];
+        int max = 0;        
+        int total = 0;
+        for (int  i = 0 ; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (map[i][j] == 1 && !check[i][j]) {
+                    cnt = 0;
+                    dfsR(i, j);
+                    max = Math.max(max, cnt);
+                    total++;
+                }
+            }
+        }
+                
+        System.out.println(total);
+        System.out.println(max);
         
-        System.out.println(sb);
+    }
+
+    static void dfsR(int x, int y) {
+        
+        check[x][y] = true;
+        cnt++;
+
+        for (int i = 0; i < 4; i++) {
+            int next_x = move_x[i] + x;
+            int next_y = move_y[i] + y;
+
+            if (next_x < 0 || next_y < 0 || next_x >= n || next_y >= m) continue;
+            if (map[next_x][next_y] == 0 || check[next_x][next_y]) continue;
+
+            dfsR(next_x, next_y);
+        }
 
     }
     

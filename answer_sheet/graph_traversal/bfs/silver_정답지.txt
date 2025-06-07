@@ -1,0 +1,287 @@
+#2178
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static int[][] map;
+    static boolean[][] check;
+    static int[] move_x = {1, -1, 0, 0};
+    static int[] move_y = {0, 0, 1,  -1};
+    
+    static int N, M;
+
+    static Queue<Spot> que = new LinkedList<>();
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        
+        map = new int[N][M];
+        for (int i = 0; i < N; i++) {
+            String str = br.readLine();
+            for (int j = 0; j < M; j++)
+                map[i][j] = str.charAt(j) - '0';
+        }
+
+        check = new boolean[N][M];
+        bfs(0, 0);
+        System.out.println(map[N - 1][M - 1]);
+        
+    }
+    
+    public static void bfs(int x, int y) {
+        
+        que.offer(new Spot(x, y));
+        check[0][0] = true;
+
+        while (!que.isEmpty()) {
+            Spot start = que.poll();
+            
+            for (int i = 0; i < 4; i++) {
+                int next_x = start.x + move_x[i];
+                int next_y = start.y + move_y[i];
+                
+                if (next_x < 0 || next_y < 0 || next_x >= N || next_y >= M) continue;
+                if (check[next_x][next_y] || map[next_x][next_y] != 1) continue;
+                
+                que.offer(new Spot(next_x, next_y));
+                check[next_x][next_y] = true;
+                map[next_x][next_y] = map[start.x][start.y] + 1;
+            }
+
+        }
+
+    }
+
+}
+
+class Spot {
+    
+    int x;
+    int y;
+    Spot(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+}
+
+#1697
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static int[] arr = new int[100001];  // 방문 거리 기록
+    static boolean[] check = new boolean[100001];  // 방문 여부
+
+    static Queue<Integer> que = new LinkedList<>();
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+
+        System.out.println(bfs(N, K));
+
+    }
+
+    static int bfs(int start, int end) {
+        que.offer(start);
+        check[start] = true;
+        arr[start] = 0; 
+
+        while (!que.isEmpty()) {
+            start = que.poll();
+
+            if (start == end) {
+                return arr[start];
+            }
+
+            if (start - 1 >= 0 && !check[start - 1]) {  
+                que.offer(start - 1);
+                check[start - 1] = true;
+                arr[start - 1] = arr[start] + 1;  
+            }
+            if (start + 1 <= 100000 && !check[start + 1]) {  
+                que.offer(start + 1);
+                check[start + 1] = true;
+                arr[start + 1] = arr[start] + 1;  
+            }
+            if (start * 2 <= 100000 && !check[start * 2]) {  
+                que.offer(start * 2);
+                check[start * 2] = true;
+                arr[start * 2] = arr[start] + 1;  
+            }
+        }
+
+        return -1;  
+    }
+}
+
+#7562
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static int[][] map;
+    static boolean[][] check;
+
+    static int[] move_x = {-2, 2, -1, 1, -2, 2, -1, 1};
+    static int[] move_y = {1, 1, 2, 2, -1, -1, -2, -2};
+
+    static int N;
+    static int start_x, start_y, last_x, last_y;
+
+    
+    public static void main(String[] args) throws IOException{
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int T = Integer.parseInt(br.readLine());
+        
+        while (T != 0) {
+            
+            N = Integer.parseInt(br.readLine());
+            
+            StringTokenizer st = new StringTokenizer(br.readLine());    
+            start_x = Integer.parseInt(st.nextToken());
+            start_y = Integer.parseInt(st.nextToken());
+            
+            StringTokenizer st2 = new StringTokenizer(br.readLine());
+            last_x = Integer.parseInt(st2.nextToken()); 
+            last_y = Integer.parseInt(st2.nextToken()); 
+            
+            map = new int[N][N];
+            check = new boolean[N][N];
+            
+            System.out.println(bfs(start_x, start_y, last_x, last_y));
+            
+            T--;
+        }
+    }
+    
+    static int bfs(int start_x, int start_y, int last_x, int last_y) {
+        
+        Queue<Spot> que = new LinkedList<>();
+        que.offer(new Spot(start_x, start_y, 0));
+        check[start_x][start_y] = true;
+
+        while (!que.isEmpty()) {
+            Spot s = que.poll();
+
+            if (s.x == last_x && s.y == last_y) return s.cnt;
+
+            for (int i = 0; i < 8; i++) {
+                int next_x = move_x[i] + s.x;
+                int next_y = move_y[i] + s.y;
+
+                if (next_x < 0 || next_y < 0 || next_x >= N || next_y >= N) continue;
+                if (check[next_x][next_y]) continue;
+
+                que.offer(new Spot(next_x, next_y, s.cnt + 1));
+                check[next_x][next_y] = true;
+            }
+
+        }
+
+        return - 1;
+
+    }
+
+
+}
+
+class Spot {
+    int x, y, cnt;
+
+    Spot(int x, int y, int cnt) {
+        this.x = x;
+        this.y = y;
+        this.cnt = cnt;
+    }
+}
+
+#16953
+
+package java_coding_test.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static long A, B;
+    static HashMap<Long, Integer> check = new HashMap<>();
+    static Queue<Long> que = new LinkedList<>();
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        A = Long.parseLong(st.nextToken());
+        B = Long.parseLong(st.nextToken());
+
+        System.out.println(bfs(A));
+
+    }
+
+    static int bfs(long start) {
+
+        que.offer(start);
+        check.put(start, 1);
+
+        while (!que.isEmpty()) {
+            start = que.poll();
+
+            if (start == B) return check.get(start);
+
+            if (start * 2 <= B && !check.containsKey(start * 2)) {
+                que.offer(start * 2);
+                check.put(start * 2, check.get(start) + 1);
+            }
+            if (start * 10 + 1 <= B && !check.containsKey(start * 10 - 1)) {
+                que.offer(start * 10 + 1);
+                check.put(start * 10 + 1, check.get(start) + 1);
+            }
+        }
+        
+        return -1;
+    }
+}
