@@ -1,69 +1,77 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
     static int[][] map;
-    static boolean[][] check;
-    static int[] move_x = {-1, 1, 0, 0};
-    static int[] move_y = {0, 0, -1, 1};
-    
-    static int n, m, cnt;
-    
+    static int N, min=Integer.MAX_VALUE, answer = -1;
+
+    static class info {
+
+        int index, count;
+        public info(int index, int count) {
+            this.index = index;
+            this.count = count;
+        }
+
+    }
     
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
 
-        map = new int[n][m];
-
-        for (int i = 0; i < n; i++) {
+        N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        map = new int[N + 1][N + 1];
+        for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < m; j++) {
-                map[i][j] = Integer.parseInt(st.nextToken());
-            }
+            int A = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
+
+            map[A][B] = map[B][A] = 1;
+        }
+        
+
+        for (int i = 1; i <= N; i++) {
+            bfs(i);
         }
 
-        check = new boolean[n][m];
-        int max = 0;        
-        int total = 0;
-        for (int  i = 0 ; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (map[i][j] == 1 && !check[i][j]) {
-                    cnt = 0;
-                    dfsR(i, j);
-                    max = Math.max(max, cnt);
-                    total++;
+        System.out.println(answer);
+        
+    }
+
+    static void bfs(int start) {
+
+        Queue<info> que = new LinkedList<>();
+
+        boolean[] check = new boolean[N + 1];
+
+        que.offer(new info(start, 0));
+        check[start] = true;
+        int result = 0;
+
+        while (!que.isEmpty()) {
+            info cur = que.poll();
+
+            for (int i = 1; i <= N; i++) {
+                if (map[cur.index][i] == 1 && !check[i]) {
+                    result += cur.count + 1;
+                    check[i] = true;
+                    que.offer(new info(i, cur.count + 1));
                 }
             }
         }
-                
-        System.out.println(total);
-        System.out.println(max);
-        
-    }
 
-    static void dfsR(int x, int y) {
-        
-        check[x][y] = true;
-        cnt++;
-
-        for (int i = 0; i < 4; i++) {
-            int next_x = move_x[i] + x;
-            int next_y = move_y[i] + y;
-
-            if (next_x < 0 || next_y < 0 || next_x >= n || next_y >= m) continue;
-            if (map[next_x][next_y] == 0 || check[next_x][next_y]) continue;
-
-            dfsR(next_x, next_y);
+        if (result < min) {
+            min = result;
+            answer = start;
         }
-
+        
     }
-    
+
 }
