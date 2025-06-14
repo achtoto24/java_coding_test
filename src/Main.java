@@ -1,77 +1,63 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
+// dfs & 백트래킹 문제
 public class Main {
 
-    static int[][] map;
-    static int N, min=Integer.MAX_VALUE, answer = -1;
+    static int MAX = Integer.MIN_VALUE;
+    static int MIN = Integer.MAX_VALUE;
+    static int[] operator = new int[4];
+    static int[] arr;
+    static int N;
 
-    static class info {
 
-        int index, count;
-        public info(int index, int count) {
-            this.index = index;
-            this.count = count;
-        }
-
-    }
-    
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st;
 
-        N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        map = new int[N + 1][N + 1];
-        for (int i = 0; i < M; i++) {
-            st = new StringTokenizer(br.readLine());
-            int A = Integer.parseInt(st.nextToken());
-            int B = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N];
+        
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
 
-            map[A][B] = map[B][A] = 1;
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < 4; i++) {
+            operator[i] = Integer.parseInt(st.nextToken());
         }
         
-
-        for (int i = 1; i <= N; i++) {
-            bfs(i);
-        }
-
-        System.out.println(answer);
+       dfs(arr[0], 1); 
+        
+        System.out.println(MAX);
+        System.out.println(MIN);
         
     }
 
-    static void bfs(int start) {
+    public static void dfs(int num, int idx) {
+        if(idx == N) {
+            MAX = Math.max(MAX, num);
+            MIN = Math.min(MIN, num);
+        }
 
-        Queue<info> que = new LinkedList<>();
+        for (int i = 0; i < 4; i++) {
+            if (operator[i] > 0) {
+                operator[i]--;
 
-        boolean[] check = new boolean[N + 1];
-
-        que.offer(new info(start, 0));
-        check[start] = true;
-        int result = 0;
-
-        while (!que.isEmpty()) {
-            info cur = que.poll();
-
-            for (int i = 1; i <= N; i++) {
-                if (map[cur.index][i] == 1 && !check[i]) {
-                    result += cur.count + 1;
-                    check[i] = true;
-                    que.offer(new info(i, cur.count + 1));
+                switch (i) {
+                    case 0 : dfs(num + arr[idx], idx + 1); break;
+                    case 1 : dfs(num - arr[idx], idx + 1); break;
+                    case 2 : dfs(num * arr[idx], idx + 1); break;
+                    case 3 : dfs(num / arr[idx], idx + 1); break;
                 }
+
+                operator[i]++;
             }
         }
-
-        if (result < min) {
-            min = result;
-            answer = start;
-        }
-        
     }
-
+    
 }
