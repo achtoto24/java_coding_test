@@ -3,61 +3,80 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-// dfs & 백트래킹 문제
+// 다시 풀어보기
 public class Main {
 
-    static int MAX = Integer.MIN_VALUE;
-    static int MIN = Integer.MAX_VALUE;
-    static int[] operator = new int[4];
-    static int[] arr;
     static int N;
+    static int[][] map;
+    static boolean[] visit;
 
-
+    static int Min = Integer.MAX_VALUE;
+        
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
         N = Integer.parseInt(br.readLine());
-        arr = new int[N];
-        
-        st = new StringTokenizer(br.readLine());
+
+        map = new int[N + 1][N + 1];
+        visit = new boolean[N];
+
         for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < 4; i++) {
-            operator[i] = Integer.parseInt(st.nextToken());
-        }
-        
-       dfs(arr[0], 1); 
-        
-        System.out.println(MAX);
-        System.out.println(MIN);
-        
-    }
-
-    public static void dfs(int num, int idx) {
-        if(idx == N) {
-            MAX = Math.max(MAX, num);
-            MIN = Math.min(MIN, num);
-        }
-
-        for (int i = 0; i < 4; i++) {
-            if (operator[i] > 0) {
-                operator[i]--;
-
-                switch (i) {
-                    case 0 : dfs(num + arr[idx], idx + 1); break;
-                    case 1 : dfs(num - arr[idx], idx + 1); break;
-                    case 2 : dfs(num * arr[idx], idx + 1); break;
-                    case 3 : dfs(num / arr[idx], idx + 1); break;
-                }
-
-                operator[i]++;
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
+
+        combi(0, 0);
+
+        System.out.println(Min);
+        
+    }
+
+    static void combi(int idx, int count) {
+
+        if (count == N / 2) {
+            diff();
+            return;
+        }
+
+        for (int i = idx; i < N; i++) {
+            if (!visit[i]) {
+                visit[i] = true;
+                combi(i + 1, count + 1);
+                visit[i] = false;
+            }
+        }
+
     }
     
+    static void diff() {
+
+        int team_start = 0;
+        int team_link = 0;
+
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if (visit[i] == true && visit[j] == true) {
+                    team_start += map[i][j];
+                    team_start += map[j][i];
+                } else if (visit[i] == false && visit[j] == false) {
+                    team_link += map[i][j];
+                    team_link += map[j][i];
+                }
+            }
+        }
+
+        int val = Math.abs(team_start - team_link);
+
+        if (val == 0) {
+            System.out.println(val);
+            System.exit(0);
+        }
+        
+        Min = Math.min(Min, val);
+
+    }
+
 }
