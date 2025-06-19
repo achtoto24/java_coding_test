@@ -3,80 +3,36 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-// 다시 풀어보기
 public class Main {
 
-    static int N;
-    static int[][] map;
-    static boolean[] visit;
-
-    static int Min = Integer.MAX_VALUE;
-        
     public static void main(String[] args) throws IOException {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        N = Integer.parseInt(br.readLine());
-
-        map = new int[N + 1][N + 1];
-        visit = new boolean[N];
-
-        for (int i = 0; i < N; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < N; j++) {
-                map[i][j] = Integer.parseInt(st.nextToken());
-            }
-        }
-
-        combi(0, 0);
-
-        System.out.println(Min);
         
-    }
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-    static void combi(int idx, int count) {
+        st = new StringTokenizer(br.readLine());
+        int e = Integer.parseInt(st.nextToken());
+        int s = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
 
-        if (count == N / 2) {
-            diff();
-            return;
+        int E = 0;
+        int S = 0;
+        int M = 0;
+        int year = 0;
+
+        while (true) {
+            year++;
+            E++;
+            S++;
+            M++;
+            if (E == 16) E = 1;
+            if (S == 29) S = 1;
+            if (M == 20) M = 1;
+            if (e == E && s == S && m == M) break;
         }
-
-        for (int i = idx; i < N; i++) {
-            if (!visit[i]) {
-                visit[i] = true;
-                combi(i + 1, count + 1);
-                visit[i] = false;
-            }
-        }
-
+        
+        System.out.println(year);
+        
     }
     
-    static void diff() {
-
-        int team_start = 0;
-        int team_link = 0;
-
-        for (int i = 0; i < N - 1; i++) {
-            for (int j = i + 1; j < N; j++) {
-                if (visit[i] == true && visit[j] == true) {
-                    team_start += map[i][j];
-                    team_start += map[j][i];
-                } else if (visit[i] == false && visit[j] == false) {
-                    team_link += map[i][j];
-                    team_link += map[j][i];
-                }
-            }
-        }
-
-        int val = Math.abs(team_start - team_link);
-
-        if (val == 0) {
-            System.out.println(val);
-            System.exit(0);
-        }
-        
-        Min = Math.min(Min, val);
-
-    }
-
 }
