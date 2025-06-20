@@ -5,34 +5,42 @@ import java.util.StringTokenizer;
 
 public class Main {
 
+    static int[] arr;
+    static int cnt = 0;
+    static int N, S;
+
     public static void main(String[] args) throws IOException {
-        
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
-        int e = Integer.parseInt(st.nextToken());
-        int s = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        S = Integer.parseInt(st.nextToken());
+        arr = new int[N];
 
-        int E = 0;
-        int S = 0;
-        int M = 0;
-        int year = 0;
-
-        while (true) {
-            year++;
-            E++;
-            S++;
-            M++;
-            if (E == 16) E = 1;
-            if (S == 29) S = 1;
-            if (M == 20) M = 1;
-            if (e == E && s == S && m == M) break;
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        
-        System.out.println(year);
+
+        dfs(0, 0);
+        if (S == 0) cnt--;  // 아무 원소도 선택하지 않을 경우도 카운트되므로 빼야 함
+
+        System.out.println(cnt);
         
     }
-    
+
+    static void dfs(int idx, int sum) {
+
+        if (idx == N) {
+            if (sum == S) cnt++;
+            return;
+        } 
+
+        dfs(idx + 1, sum + arr[idx]);   // idx번째 원소를 포함하여 sum을 계산한 경우
+        dfs(idx + 1, sum);              // idx번쨰 원소를 포함하지 않고 sum을 계산한 경우
+        
+    }
+
 }
