@@ -1,46 +1,71 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    static int[] arr;
-    static int cnt = 0;
-    static int N, S;
+    static boolean[] check;
+    static Queue<Spot> que = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
-        st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        S = Integer.parseInt(st.nextToken());
-        arr = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int F = Integer.parseInt(st.nextToken());
+        int S = Integer.parseInt(st.nextToken());
+        int G = Integer.parseInt(st.nextToken());
+        int U = Integer.parseInt(st.nextToken());
+        int D = Integer.parseInt(st.nextToken());
 
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+        check = new boolean[F + 1];
+
+        int result = bfs(F, S, G, U, D);
+        if (result == -1) System.out.println("use the stairs");
+        else System.out.println(result);
+        
+    }
+
+    static int bfs(int height, int start, int end, int up, int down) {
+
+        que.offer(new Spot(start, 0));
+        check[start] = true;
+        
+        while (!que.isEmpty()) {
+            Spot spot = que.poll();
+
+            if (spot.layer == end) {
+                return spot.cnt;
+            }
+
+            if (spot.layer + up <= height && !check[spot.layer + up]) {
+                que.offer(new Spot(spot.layer + up, spot.cnt + 1));
+                check[spot.layer + up] = true;
+            }
+            
+            if (spot.layer - down >= 1 && !check[spot.layer - down]) {
+                que.offer(new Spot(spot.layer - down, spot.cnt + 1));
+                check[spot.layer - down] = true;
+            }
         }
 
-        dfs(0, 0);
-        if (S == 0) cnt--;  // 아무 원소도 선택하지 않을 경우도 카운트되므로 빼야 함
-
-        System.out.println(cnt);
+        return -1;
         
     }
+    
+}
 
-    static void dfs(int idx, int sum) {
+class Spot {
 
-        if (idx == N) {
-            if (sum == S) cnt++;
-            return;
-        } 
+    int layer, cnt;
 
-        dfs(idx + 1, sum + arr[idx]);   // idx번째 원소를 포함하여 sum을 계산한 경우
-        dfs(idx + 1, sum);              // idx번쨰 원소를 포함하지 않고 sum을 계산한 경우
-        
+    Spot(int layer, int cnt) {
+        this.layer = layer;
+        this.cnt = cnt;
     }
-
+    
 }
