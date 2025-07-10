@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +13,7 @@ public class Main {
 
     static StringBuilder sb = new StringBuilder();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws  IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -20,10 +21,10 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        check = new boolean[N + 1];
-        arr = new int[M + 1];
+        arr = new int[M];
+        check = new boolean[N];
 
-        dfs(1);
+        dfs(0);
 
         System.out.println(sb);
         
@@ -31,23 +32,25 @@ public class Main {
 
     static void dfs(int depth) {
 
-        if (depth > M) {
-            for (int i = 1; i <= M; i++) {
-                sb.append(arr[i] + " ");
+        if (depth == M) {
+            StringBuilder sb2 = new StringBuilder();
+            for (int i = 0; i < M - 1; i++) {
+                if (arr[i] >= arr[i + 1]) return;
+                sb2.append(arr[i] + " ");
             }
-            sb.append("\n");
+            sb2.append(arr[M - 1]);
+            sb.append(sb2 + "\n");
             return;
-        }
+        }   
 
-        for (int i = 1; i <= N; i++) {
-            if (!check[i]) {
-                check[i] = true;
-                arr[depth] = i;
-                dfs(depth + 1);
-                check[i] = false;
-            }
+        for (int i = 0; i < N; i++) {
+            check[i] = true;
+            arr[depth] = i + 1;
+            dfs(depth + 1);
+            check[i] = false;
         }
-
+        
+        
     }
-    
+
 }
