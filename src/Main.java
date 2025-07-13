@@ -6,13 +6,12 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    static int[] arr;
-    static boolean[] check;
+    static int arr[];
+    static boolean check[];
     
     static int N, M;
     static StringBuilder sb = new StringBuilder();
     
-
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,18 +26,16 @@ public class Main {
         dfs(0);
 
         System.out.println(sb);
+        
     }
 
     static void dfs(int depth) {
 
         if (depth == M) {
-            StringBuilder sb2 = new StringBuilder();
-            for (int i = 0; i < M-1; i++) {
-                if (arr[i] > arr[i+1]) return;
-                sb2.append(arr[i] + " ");
+            for (int i = 0; i < M; i++) {
+                sb.append(arr[i] + " ");
             }
-            sb2.append(arr[M-1]);
-            sb.append(sb2 + "\n");
+            sb.append("\n");
             return;
         }
 
@@ -50,5 +47,5 @@ public class Main {
         }
 
     }
-
+    
 }
