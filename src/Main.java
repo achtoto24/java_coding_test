@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,56 +8,63 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int[] arr, arr2;
-    static boolean[] check; 
-    static int N, M;
-    static StringBuilder sb = new StringBuilder();    
+    static boolean[] check;
 
-    public static void main(String[] args) throws IOException {
+    static int size;
+    static StringTokenizer st;
+    static StringBuilder sb = new StringBuilder();
+
+    public static void main(String[] args) throws IOException{
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        String str = br.readLine();
 
-        N = Integer.parseInt(st.nextToken());    
-        M = Integer.parseInt(st.nextToken());    
+        while (!str.equals("0")) {
+            st = new StringTokenizer(str);
+            size = Integer.parseInt(st.nextToken());
+            arr = new int[size];
+            arr2 = new int[6];
+            check = new boolean[size];
 
-        arr = new int[N];
-        arr2 = new int[M];
-        check = new boolean[N];
+            
+            for (int i = 0; i < size; i++) {
+                arr[i] = Integer.parseInt(st.nextToken());
+            }
 
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+            Arrays.sort(arr);
+
+            dfs(0);
+            
+            System.out.println(sb);
+
+            sb = new StringBuilder();
+            str = br.readLine();
         }
-
-        Arrays.sort(arr);
-        
-        dfs(0);
-
-        System.out.println(sb);
         
     }
 
     static void dfs(int depth) {
 
-        if (depth == M) {
+        if (depth == 6) {
             StringBuilder sb2 = new StringBuilder();
-            for (int i = 0; i < M-1; i++) {
-                for (int j = i+1; j < M; j++)
-                    if (arr2[i] == arr2[j]) return;
-                sb2.append(arr2[i] + " ");
+            for (int i = 0; i < 5; i++) {
+                if (arr2[i] >= arr2[i+1]) return;
+                    sb2.append(arr2[i] + " ");
             }
-            sb2.append(arr2[M-1]);
+            sb2.append(arr2[5]);
             sb.append(sb2 + "\n");
             return;
         }
 
-        for (int i = 0; i < N; i++) {
-            check[i] = true;
-            arr2[depth] = arr[i];
-            dfs(depth + 1);
-            check[i] = false;
+        for (int i = 0; i < size; i++) {
+            if (!check[i]) {
+                check[i] = true;
+                arr2[depth] = arr[i];
+                dfs(depth + 1);
+                check[i] = false;
+            }
         }
-
-    }  
+        
+    }
     
 }
