@@ -41,8 +41,14 @@ public class Main {
 
         if (depth == M) {
             StringBuilder sb2 = new StringBuilder();
-            for (int i = 0; i < M; i++) {
-                sb.append(arr2[i]);
+            for (int i = 0; i < M-1; i++) {
+                for (int j = i; j < M; j++) {
+                    if (arr2[i] == arr2[j]) return;
+                    sb2.append(arr2[i] + " ");                    
+                }
+                sb2.append(arr2[M-1]);
+                sb.append(sb2 + "\n");
+                return;
             }
         }
 
