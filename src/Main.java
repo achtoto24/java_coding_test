@@ -7,7 +7,6 @@ import java.util.StringTokenizer;
 public class Main {
     
     static int[] arr, arr2;
-    static boolean[] check;
     static int N, M;
     
     static StringBuilder sb = new StringBuilder();
@@ -21,7 +20,6 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         
         arr = new int[N];
-        check = new boolean[N];
         arr2 = new int[M];
         
         StringTokenizer st2 = new StringTokenizer(br.readLine());
@@ -31,13 +29,13 @@ public class Main {
         
         Arrays.sort(arr);
         
-        dfs(0);
+        dfs(0, 0);
         
         System.out.println(sb);
         
     }
     
-    static void dfs(int depth) {
+    static void dfs(int depth, int before) {
         
         
         if (depth == M) {
@@ -47,13 +45,10 @@ public class Main {
             sb.append("\n");
         } else {
             for (int i = 0; i < N; i++) {
-                int before = 0; 
-                if (!check[i] && arr[i] != before) {
-                    check[i] = true;
+                if (arr[i] >= before) {
                     before = arr[i];
                     arr2[depth] = arr[i];
-                    dfs(depth + 1);
-                    check[i] = false;
+                    dfs(depth + 1, before);
                 }
             }
         }

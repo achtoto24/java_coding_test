@@ -5,41 +5,51 @@ import java.util.StringTokenizer;
 
 public class Test {
 
-	static String A4 = "AAAA";
-	static String B2 = "BB";
+    static int[] arr;
+    static boolean[] check;
+    
+    static int N, M;
+    static StringBuilder sb = new StringBuilder();
+    
 
-	public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-		String str = br.readLine();
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-		StringTokenizer st = new StringTokenizer(str, ".");
-		StringTokenizer st2 = new StringTokenizer(str, "X");
+        arr = new int[M];
+        check = new boolean[N];
 
-		StringBuilder sb = new StringBuilder();
-		while (st.hasMoreTokens()) {
-			int len = st.nextToken().length();
-			while (len > 0) {
-				if (len - 4 >= 0) {
-					sb.append(A4);
-					len -= 4;
-					continue;
-				} else if (len - 2 >= 0) {
-					sb.append(B2);
-					len -= 2;
-					continue;
-				} else{
-					System.out.println(-1);
-					return;
-				}
-			}
-			if (st2.hasMoreTokens()) sb.append(st2.nextToken());
-			
-		}
-		
-		System.out.println(sb);
-		
-	}
-	 
-} 
+        dfs(0);
+
+        System.out.println(sb);
+    }
+
+    static void dfs(int depth) {
+
+        if (depth == M) {
+            StringBuilder sb2 = new StringBuilder();
+            for (int i = 0; i < M-1; i++) {
+                if (arr[i] > arr[i+1]) return;
+                sb2.append(arr[i] + " ");
+            }
+            sb2.append(arr[M-1]);
+            sb.append(sb2 + "\n");
+            return;
+        }
+
+        for (int i = 0; i < N; i++) {
+            if (!check[i]) {
+                check[i] = true;
+                arr[depth] = i + 1;
+                dfs(depth + 1);
+                check[i] = false;
+            }
+        }
+
+    }
+
+}
