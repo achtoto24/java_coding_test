@@ -2,16 +2,14 @@ public class Test {
 
 	public static void main(String[] args) {
 
-		int n = (int)(11 * Math.random());
-		System.out.println("random number : " + n);
+		int i = 0;
+		long sum = 0;
+		while (i<=100) {
+			sum += i;
+			i++;
+		}	
 
-		if (n <= 5) {
-			System.out.println("n : " + n);
-			System.out.println("n*n : " + n*n);
-		}
-
-		System.out.println();
-		System.out.println("end");
-		
+		System.out.println("sum(1~100) : " + sum);
 	}
+	
 }
